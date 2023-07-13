@@ -1,0 +1,172 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String               @id @default(cuid())
+  name           String?
+  email          String?              @unique
+  emailVerified  DateTime?
+  role           String?
+  image          String?
+  hashedPassword String?
+  createdAt      DateTime             @default(now())
+  updatedAt      DateTime             @default(now()) @updatedAt
+  accounts       Account[]
+  cardSets       CardSet[]
+  savedCardSets  SavedCardSets[]
+  courseProgress UserCourseProgress[]
+  favoriteCards  FavoritedCards[]
+
+  @@map(name: "users")
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map(name: "accounts")
+}
+
+model Language {
+  id                      String   @id @default(cuid())
+  name                    String   @unique
+  coursesFromLanguage     Course[] @relation("fromLanguage")
+  coursesLearningLanguage Course[] @relation("learningLanguage")
+}
+
+model Course {
+  id                 String               @id @default(cuid())
+  name               String               @unique
+  description        String?
+  fromLanguageId     String
+  fromLanguage       Language             @relation("fromLanguage", fields: [fromLanguageId], references: [id], onDelete: Cascade)
+  learningLanguageId String
+  learningLanguage   Language             @relation("learningLanguage", fields: [learningLanguageId], references: [id], onDelete: Cascade)
+  units              Unit[]
+  userCourseProgress UserCourseProgress[]
+  cardSets           CardSet[]
+}
+
+model UserCourseProgress {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  courseId  String
+  course    Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessonId  String   @unique
+  lesson    Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, courseId, lessonId])
+}
+
+model Unit {
+  id          String   @id @default(cuid())
+  name        String
+  position    Int
+  description String
+  courseId    String
+  course      Course   @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  lessons     Lesson[]
+
+  @@unique([courseId, position])
+}
+
+model Lesson {
+  id                 String              @id @default(cuid())
+  name               String
+  description        String
+  position           Int
+  unitId             String
+  unit               Unit                @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  exercises          Exercise[]
+  userCourseProgress UserCourseProgress?
+
+  @@unique([unitId, position])
+}
+
+model Exercise {
+  id             String       @id @default(cuid())
+  lessonId       String
+  lesson         Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  position       Int
+  term           String?
+  answer         String?
+  options        String[]
+  imageUrl       String?
+  readingPageId  Int?
+  exerciseTypeId String
+  exerciseType   ExerciseType @relation(fields: [exerciseTypeId], references: [id])
+
+  @@unique([lessonId, readingPageId])
+  @@unique([lessonId, position])
+}
+
+model ExerciseType {
+  id        String     @id @default(cuid())
+  name      String     @unique
+  exercises Exercise[]
+}
+
+model CardSet {
+  id        String          @id @default(cuid())
+  name      String
+  imageUrl  String?
+  cards     Card[]
+  courseId  String
+  course    Course          @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  creatorId String
+  creator   User            @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  savedBy   SavedCardSets[]
+}
+
+model Card {
+  id          String           @id @default(cuid())
+  frontText   String
+  backText    String
+  setId       String
+  cardSet     CardSet          @relation(fields: [setId], references: [id], onDelete: Cascade)
+  favoritedBy FavoritedCards[]
+}
+
+model SavedCardSets {
+  id        String  @id @default(cuid())
+  cardSetId String
+  cardSet   CardSet @relation(fields: [cardSetId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([cardSetId, userId])
+}
+
+model FavoritedCards {
+  id     String @id @default(cuid())
+  cardId String
+  card   Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([cardId, userId])
+}

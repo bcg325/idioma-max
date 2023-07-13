@@ -1,0 +1,1 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><g id="feDropDown0" fill="none" fill-rule="evenodd" stroke="none" stroke-width="1"><g id="feDropDown1" fill="currentColor"><path id="feDropDown2" d="m5 8l7 8l7-8z"/></g></g></svg>
