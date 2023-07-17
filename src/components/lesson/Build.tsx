@@ -70,7 +70,6 @@ const Build: React.FC<BuildProps> = ({ options }) => {
     <div className="flex flex-col h-full w-full justify-center gap-6 max-w-lg  ">
       <div className="flex flex-wrap gap-1.5 py-1 px-4 justify-start items-center bg-gray/40 rounded-xl h-24 overflow-y-auto">
         {selectedWords.map((wordObj) => (
-          // <DraggableWord key={word} word={word} onClick={handleWordClick} />
           <BuildWord
             key={wordObj.id}
             id={wordObj.id}

@@ -7,6 +7,26 @@ export async function GET() {
       id: true,
       name: true,
       description: true,
+      units: {
+        orderBy: {
+          position: "asc",
+        },
+        select: {
+          id: true,
+          name: true,
+          description: true,
+          lessons: {
+            orderBy: {
+              position: "asc",
+            },
+            select: {
+              id: true,
+              name: true,
+              description: true,
+            },
+          },
+        },
+      },
     },
   });
   return NextResponse.json(res);

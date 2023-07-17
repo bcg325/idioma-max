@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
 import { UserAnswerContext } from "@/app/course/lesson/[lessonId]/page";
-import shuffle from "../utils/shuffle";
+import shuffle from "../../utils/shuffle";
 
 interface MultipleChoiceProps {
   options: string[];

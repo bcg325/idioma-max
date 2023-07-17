@@ -11,20 +11,22 @@ datasource db {
 }
 
 model User {
-  id             String               @id @default(cuid())
-  name           String?
-  email          String?              @unique
-  emailVerified  DateTime?
-  role           String?
-  image          String?
-  hashedPassword String?
-  createdAt      DateTime             @default(now())
-  updatedAt      DateTime             @default(now()) @updatedAt
-  accounts       Account[]
-  cardSets       CardSet[]
-  savedCardSets  SavedCardSets[]
-  courseProgress UserCourseProgress[]
-  favoriteCards  FavoritedCards[]
+  id              String               @id @default(cuid())
+  name            String?
+  email           String?              @unique
+  emailVerified   DateTime?
+  role            String?
+  image           String?
+  hashedPassword  String?
+  createdAt       DateTime             @default(now())
+  updatedAt       DateTime             @default(now()) @updatedAt
+  accounts        Account[]
+  currentCourse   Course?              @relation(fields: [currentCourseId], references: [id])
+  currentCourseId String?
+  courseProgress  UserCourseProgress[]
+  cardSets        CardSet[]
+  savedCardSets   SavedCardSets[]
+  favoriteCards   FavoritedCards[]
 
   @@map(name: "users")
 }
@@ -67,6 +69,7 @@ model Course {
   units              Unit[]
   userCourseProgress UserCourseProgress[]
   cardSets           CardSet[]
+  currentUsers       User[]
 }
 
 model UserCourseProgress {

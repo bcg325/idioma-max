@@ -6,7 +6,6 @@ export async function GET(
   { params }: { params: { courseId: string } }
 ) {
   const courseId = params.courseId;
-  console.log(courseId);
   const res = await prisma.course.findUnique({
     where: {
       id: courseId,

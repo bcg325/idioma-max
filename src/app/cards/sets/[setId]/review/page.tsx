@@ -7,24 +7,71 @@ import { PiShuffleBold } from "react-icons/pi";
 import { usePathname } from "next/navigation";
 import { BsArrowRightShort } from "react-icons/bs";
 import { BsArrowLeftShort } from "react-icons/bs";
+import { useQuery } from "@tanstack/react-query";
+import shuffle from "@/utils/shuffle";
+import { getCardSet } from "@/app/store/cards";
+import { Card } from "@/types";
+interface SetReviewPage {
+  params: {
+    setId: string;
+  };
+}
 
-import shuffle from "@/components/utils/shuffle";
-
-const cards = [
-  { id: "1", frontText: "Lunes", backText: "Monday" },
-  { id: "2", frontText: "Martes", backText: "Tuesday" },
-  { id: "3", frontText: "Miercoles", backText: "Wednesday" },
-  { id: "4", frontText: "Jueves", backText: "Thursday" },
-  { id: "5", frontText: "Viernes", backText: "Friday" },
-  { id: "6", frontText: "Sabado", backText: "Saturday" },
-  { id: "7", frontText: "Domingo", backText: "Sunday" },
-];
-
-const SetReviewPage = () => {
+const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
+  const { setId } = params;
   const pathName = usePathname();
-  const [reviewCards, setReviewCards] = useState(cards);
+  const [reviewCards, setReviewCards] = useState<null | Card[]>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
+
+  const {
+    isLoading,
+    error,
+    data: cardSet,
+  } = useQuery({
+    queryKey: ["cardSet", setId],
+    queryFn: () => getCardSet(setId),
+    onSuccess: (data) => setReviewCards(data.cards),
+  });
+
+  useEffect(() => {
+    setIsFlipped(false);
+  }, [reviewCards]);
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent) => {
+      event.preventDefault();
+      if (event.code === "Space") {
+        setIsFlipped((isFlipped) => !isFlipped);
+      }
+      if (event.code === "ArrowLeft") {
+        handlePreviousCard();
+      }
+      if (event.code === "ArrowRight") {
+        handleNextCard();
+      }
+    },
+    [currentCardIndex, isFlipped]
+  );
+
+  useEffect(() => {
+    document.addEventListener("keydown", handleKeyDown);
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleKeyDown]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error || !cardSet) {
+    return;
+  }
+
+  if (!reviewCards) {
+    return;
+  }
 
   const shuffleCards = () => {
     const remainingCards = reviewCards.slice(currentCardIndex);
@@ -57,33 +104,6 @@ const SetReviewPage = () => {
     setIsFlipped(false);
     setCurrentCardIndex((prev) => prev - 1);
   };
-
-  const handleKeyDown = useCallback(
-    (event: KeyboardEvent) => {
-      event.preventDefault();
-      if (event.code === "Space") {
-        setIsFlipped((isFlipped) => !isFlipped);
-      }
-      if (event.code === "ArrowLeft") {
-        handlePreviousCard();
-      }
-      if (event.code === "ArrowRight") {
-        handleNextCard();
-      }
-    },
-    [currentCardIndex, isFlipped]
-  );
-
-  useEffect(() => {
-    setIsFlipped(false);
-  }, [reviewCards]);
-
-  useEffect(() => {
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [handleKeyDown]);
 
   return (
     <div className="container min-h-fit h-full lg:max-w-4xl">
