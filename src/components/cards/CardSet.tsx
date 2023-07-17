@@ -16,7 +16,7 @@ const CardSet: React.FC<CardSetType> = ({ id, title, cardCount, imageUrl }) => {
       className="bg-white w-full border-2 border-gray rounded-xl p-2 flex gap-3 shadow"
     >
       <Image
-        src={imageUrl}
+        src={imageUrl || "/placeholder.jpg"}
         alt="testing image"
         width={80}
         height={80}

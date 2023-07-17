@@ -10,7 +10,7 @@ interface LessonCardProps {
   url: string;
   title: string;
   description: string;
-  status: "complete" | "current" | "locked";
+  status: string;
 }
 
 interface LinkWrapperProps {
@@ -46,7 +46,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
   url,
 }) => {
   const icon =
-    status === "complete" ? (
+    status === "completed" ? (
       <BsCheckLg size={30} className="text-Dark" />
     ) : status === "current" ? (
       <Button rounding="rounded-2xl" className="text-white">

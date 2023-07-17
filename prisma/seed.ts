@@ -23,62 +23,66 @@ async function main() {
       fromLanguageId: spanish.id,
       learningLanguageId: english.id,
       description: "ES_EN",
+      units: {
+        createMany: {
+          data: [
+            {
+              name: "Introduction",
+              position: 0,
+              description: "Introduction unit to English course",
+            },
+            {
+              name: "Foundations",
+              position: 1,
+              description: "Foundations unit to English course",
+            },
+            {
+              name: "Conversations",
+              position: 2,
+              description: "Conversations unit to English course",
+            },
+          ],
+        },
+      },
     },
   });
+
   const spanishCourse = await prisma.course.create({
     data: {
       name: "Spanish",
       fromLanguageId: english.id,
       learningLanguageId: spanish.id,
       description: "EN_ES",
+      units: {
+        createMany: {
+          data: [
+            {
+              name: "Spanish unit 1",
+              position: 0,
+              description: "Introduction to Spanish course",
+            },
+            {
+              name: "Spanish unit 2",
+              position: 1,
+              description: "Foundations for Spanish course",
+            },
+            {
+              name: "Spanish unit 3",
+              position: 2,
+              description: "Conversations unit for Spanish course",
+            },
+          ],
+        },
+      },
     },
   });
 
-  if (!englishCourse) return;
-  //create units for english course
-  await prisma.unit.createMany({
-    data: [
-      {
-        name: "Introduction",
-        position: 0,
-        description: "Introduction unit to English course",
-        courseId: englishCourse.id,
-      },
-      {
-        name: "Foundations",
-        position: 1,
-        description: "Foundations unit to English course",
-        courseId: englishCourse.id,
-      },
-      {
-        name: "Conversations",
-        position: 2,
-        description: "Conversations unit to English course",
-        courseId: englishCourse.id,
-      },
-    ],
-  });
-
-  //find all units in English course
-  const units = await prisma.unit.findMany({
-    where: {
-      courseId: englishCourse.id,
-    },
-    orderBy: {
-      position: "asc",
-    },
-    select: {
-      id: true,
-      name: true,
-      position: true,
-    },
-  });
-
-  if (!units) return;
-  //create lessons for each unit
   await prisma.unit.update({
     where: {
-      id: units[0].id,
+      courseId_position: {
+        courseId: englishCourse.id,
+        position: 0,
+      },
     },
     data: {
       lessons: {
@@ -112,7 +116,10 @@ async function main() {
 
   await prisma.unit.update({
     where: {
-      id: units[1].id,
+      courseId_position: {
+        courseId: englishCourse.id,
+        position: 1,
+      },
     },
     data: {
       lessons: {
@@ -136,7 +143,106 @@ async function main() {
 
   await prisma.unit.update({
     where: {
-      id: units[2].id,
+      courseId_position: {
+        courseId: englishCourse.id,
+        position: 2,
+      },
+    },
+    data: {
+      lessons: {
+        createMany: {
+          data: [
+            {
+              name: "1st lesson",
+              description: "lesson 1 description",
+              position: 0,
+            },
+            {
+              name: "2nd lesson",
+              description: "lesson 2 description",
+              position: 1,
+            },
+            {
+              name: "3rd lesson",
+              description: "lesson 3 description",
+              position: 2,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  await prisma.unit.update({
+    where: {
+      courseId_position: {
+        courseId: spanishCourse.id,
+        position: 0,
+      },
+    },
+    data: {
+      lessons: {
+        createMany: {
+          data: [
+            {
+              name: "Lesson 1",
+              description: "lesson 1 description",
+              position: 0,
+            },
+            {
+              name: "Lesson 2",
+              description: "lesson 2 description",
+              position: 1,
+            },
+            {
+              name: "Lesson 3",
+              description: "lesson 3 description",
+              position: 2,
+            },
+            {
+              name: "Lesson 4",
+              description: "lesson 4 description",
+              position: 3,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  await prisma.unit.update({
+    where: {
+      courseId_position: {
+        courseId: spanishCourse.id,
+        position: 1,
+      },
+    },
+    data: {
+      lessons: {
+        createMany: {
+          data: [
+            {
+              name: "First lesson",
+              description: "lesson 1 description",
+              position: 0,
+            },
+            {
+              name: "Second lesson",
+              description: "lesson 2 description",
+              position: 1,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  await prisma.unit.update({
+    where: {
+      courseId_position: {
+        courseId: spanishCourse.id,
+        position: 2,
+      },
     },
     data: {
       lessons: {
@@ -239,6 +345,107 @@ async function main() {
               answer: "adiós",
               options: ["hola", "por favor", "gracias"],
               exerciseTypeId: vocabExercise.id,
+            },
+          ],
+        },
+      },
+    },
+  });
+
+  //CREATING CARDS
+  const weekDaysCardSet = await prisma.cardSet.create({
+    data: {
+      name: "Days of the week",
+      courseId: englishCourse.id,
+      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
+      cards: {
+        createMany: {
+          data: [
+            {
+              frontText: "Lunes",
+              backText: "Monday",
+            },
+            {
+              frontText: "Martes",
+              backText: "Tuesday",
+            },
+            {
+              frontText: "Miercoles",
+              backText: "Wednesday",
+            },
+            {
+              frontText: "Jueves",
+              backText: "Thursday",
+            },
+            {
+              frontText: "Viernes",
+              backText: "Friday",
+            },
+            {
+              frontText: "Sabado",
+              backText: "Saturday",
+            },
+            {
+              frontText: "Domingo",
+              backText: "Sunday",
+            },
+          ],
+        },
+      },
+    },
+  });
+  const timesOfDay = await prisma.cardSet.create({
+    data: {
+      name: "Times of the day",
+      courseId: englishCourse.id,
+      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
+      cards: {
+        createMany: {
+          data: [
+            {
+              frontText: "Morning",
+              backText: "Mañana",
+            },
+            {
+              frontText: "Afternoon",
+              backText: "Tarde",
+            },
+            {
+              frontText: "Night",
+              backText: "Noche",
+            },
+          ],
+        },
+      },
+    },
+  });
+  const commonQuestions = await prisma.cardSet.create({
+    data: {
+      name: "Common questions",
+      courseId: englishCourse.id,
+      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
+      cards: {
+        createMany: {
+          data: [
+            {
+              frontText: "What’s your name?",
+              backText: "¿Cómo te llamas?",
+            },
+            {
+              frontText: "What do you do for a living?",
+              backText: "¿A qué te dedicas?",
+            },
+            {
+              frontText: "How much is this?",
+              backText: "¿Cuánto cuesta?",
+            },
+            {
+              frontText: "What time is it?",
+              backText: "¿Qué hora es?",
+            },
+            {
+              frontText: "Can you help me?",
+              backText: "¿Me puede ayudar?",
             },
           ],
         },

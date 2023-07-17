@@ -6,7 +6,7 @@ import { HiOutlineSpeakerWave } from "react-icons/hi2";
 interface LessonHeaderProps {
   title: string;
   imageUrl: string;
-  word: string;
+  term: string;
   isFillBlank: boolean;
 }
 
@@ -21,24 +21,24 @@ if (window) {
 const LessonHeader: React.FC<LessonHeaderProps> = ({
   title,
   imageUrl,
-  word,
+  term,
   isFillBlank,
 }) => {
   const playSound = useCallback(() => {
     const msg = new SpeechSynthesisUtterance();
 
     msg.voice = speech_voices[4];
-    msg.text = word;
+    msg.text = term;
     // voices[4] for english, voices[7] for spanish
     window.speechSynthesis.speak(msg);
-  }, [word]);
+  }, [term]);
 
   return (
     <div className=" w-full flex flex-col items-center mt-2 mb-4">
       <h1 className="text-2xl font-semibold text-center">{title}</h1>
       <div className="relative flex justify-center">
         <Image
-          src={imageUrl}
+          src={imageUrl || "/placeholder.jpg"}
           alt="language"
           width={200}
           height={200}
@@ -51,7 +51,7 @@ const LessonHeader: React.FC<LessonHeaderProps> = ({
           onClick={playSound}
           className=" flex flex-col items-center gap-0.5 text-2xl text-medium text-center rounded-xl px-2.5 hover:bg-primary200/10"
         >
-          <span className="after:content-[attr(after)]">{word}</span>
+          <span className="after:content-[attr(after)]">{term}</span>
           <HiOutlineSpeakerWave
             className="inline after text-primary400"
             color=""

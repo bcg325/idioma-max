@@ -8,6 +8,7 @@ const ProfilePage = async () => {
 
   const user = session?.user;
 
+  //use session seems the correct way on client side
   return (
     <Auth>
       <div>

@@ -3,36 +3,22 @@ import { NextResponse } from "next/server";
 
 export async function GET(
   req: Request,
-  {
-    params,
-  }: { params: { courseId: string; unitPos: number; lessonPos: number } }
+  { params }: { params: { lessonId: string } }
 ) {
-  const { courseId, unitPos, lessonPos } = params;
-
-  const unit = await prisma.unit.findUnique({
+  const { lessonId } = params;
+  const lesson = await prisma.lesson.findUnique({
     where: {
-      courseId_position: {
-        courseId,
-        position: +unitPos,
-      },
+      id: lessonId,
     },
     select: {
       id: true,
-    },
-  });
-
-  if (!unit) {
-    return;
-  }
-
-  const lesson = await prisma.lesson.findUnique({
-    where: {
-      unitId_position: {
-        unitId: unit.id,
-        position: +lessonPos,
+      unit: {
+        select: {
+          id: true,
+          courseId: true,
+        },
       },
-    },
-    include: {
+      position: true,
       exercises: {
         orderBy: {
           position: "asc",
@@ -53,5 +39,6 @@ export async function GET(
       },
     },
   });
+
   return NextResponse.json(lesson);
 }
