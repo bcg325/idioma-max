@@ -11,6 +11,7 @@ interface LessonCardProps {
   title: string;
   description: string;
   status: string;
+  order: number;
 }
 
 interface LinkWrapperProps {
@@ -44,6 +45,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
   description,
   status,
   url,
+  order,
 }) => {
   const icon =
     status === "completed" ? (
@@ -58,13 +60,15 @@ const LessonCard: React.FC<LessonCardProps> = ({
 
   return (
     <LinkWrapper
-      className={`cursor-pointer flex justify-between border-t-2 border-gray p-3 px-4 ${
+      className={`cursor-pointer flex justify-between bg-white border-t-2 border-gray p-3 px-4 ${
         status === "locked" ? "bg-gray/10" : ""
       }`}
       href={status === "locked" ? "#" : url}
     >
       <div>
-        <h3 className="text-lg font-medium block">{title}</h3>
+        <h3 className="text-lg font-semibold block">
+          {order}. {title}
+        </h3>
         <p className="line-clamp-2">{description}</p>
       </div>
       <div className="flex items-center justify-center pr-2">{icon}</div>

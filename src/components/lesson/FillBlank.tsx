@@ -1,4 +1,4 @@
-import { UserAnswerContext } from "@/app/course/lesson/[lessonId]/page";
+import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page";
 import { useState, useContext, useEffect } from "react";
 import BuildWord from "./BuildWord";
 import shuffle from "../../utils/shuffle";

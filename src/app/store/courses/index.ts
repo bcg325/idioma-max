@@ -1,28 +1,23 @@
-export const getLessonById = async (lessonId: string) => {
-  const res = await fetch(`/api/lessons/${lessonId}`);
-  const data = await res.json();
+import axios from "axios";
+import { Lesson } from "@/types";
 
-  return data;
+export const getLessonById = async (lessonId: string) => {
+  const res = await axios.get(`/api/lessons/${lessonId}`);
+  return res.data;
 };
 
 export const updateCourseProgress = async (
   courseId: string,
   lessonId: string
 ) => {
-  const res = await fetch("/api/course-progress/", {
-    method: "POST",
-    body: JSON.stringify({
-      courseId: courseId,
-      lessonId: lessonId,
-    }),
-    headers: { "Content-Type": "application/json" },
+  const res = await axios.post("/api/course-progress/", {
+    courseId,
+    lessonId,
   });
-  const data = await res.json();
-  return data;
+  return res.data;
 };
 
 export const getUserProgress = async (courseId: string) => {
-  const res = await fetch(`/api/course-progress/${courseId}`);
-  const data = await res.json();
-  return data;
+  const res = await axios.get(`/api/course-progress/${courseId}`);
+  return res.data;
 };
