@@ -1,62 +1,37 @@
-"use client";
-import { useState, useEffect } from "react";
-
+import { useRef, useEffect } from "react";
+import Button from "./Button";
+import { IoClose } from "react-icons/io5";
 interface ModalProps {
-  isOpen?: boolean;
-  onClose: () => void;
+  isOpen: boolean;
+  handleClose: () => void;
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-  const [showModal, setShowModal] = useState(isOpen);
-
-  useEffect(() => {
-    setShowModal(isOpen);
-  }, [isOpen]);
-
-  const handleClose = () => {
-    setShowModal(false);
-    setTimeout(() => {
-      onClose();
-    }, 300);
-  };
-
+const Modal: React.FC<ModalProps> = ({ isOpen, handleClose, children }) => {
   if (!isOpen) {
     return;
   }
 
   return (
-    <div
-      className="
-        flex 
-        items-center 
-        justify-center 
-        fixed 
-        overflow-x-hidden
-        overflow-y-auto
-        z-50
-        inset-0
-        bg-neutral-800/50
-        "
-    >
-      <div
-        className={`
-        fixed
-        bottom-0
-        bg-white
-        w-full
-        
-        
-        translate-all
-        ease-in
-        duration-150
-        ${showModal ? "translate-y-0" : "translate-y-full"}
-        ${showModal ? "opacity-100" : "opacity-0"}
-`}
-      >
-        {children}
+    <>
+      <div className="fixed inset-0 z-50 h-fit px-6 pt-3 pb-6 mx-auto my-auto bg-white shadow-lg w-full sm:w-5/6 rounded-xl max-w-xl">
+        <div className="">
+          <Button
+            onClick={() => handleClose()}
+            color="bg-white"
+            rounding="rounded-full"
+            className="p-0 shadow-none hover:bg-grayLight"
+          >
+            <IoClose size={26} />
+          </Button>
+          {children}
+        </div>
       </div>
-    </div>
+      <div
+        onClick={handleClose}
+        className="fixed inset-0 z-40 bg-neutral-800/50 overflow-hidden flex items-center justify-center"
+      ></div>
+    </>
   );
 };
 export default Modal;

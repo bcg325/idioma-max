@@ -3,12 +3,17 @@ import { useState } from "react";
 import LessonCard from "./LessonCard";
 import Image from "next/image";
 import { Lesson } from "@/types";
+import { IoMdArrowDropdown } from "react-icons/io";
 
+type bgColor = {
+  [key: number]: string;
+};
 interface UnitCardProps {
   id: string;
   courseId: string;
   name: string;
   lessons: Lesson[];
+  order: number;
   // currentCoursePos: number;
 }
 
@@ -19,26 +24,39 @@ const UnitCard = ({
   courseId,
   name,
   lessons,
+  order,
 }: // currentCoursePos,
 UnitCardProps) => {
   const [showLessons, setShowLessons] = useState(true);
 
+  const bgColor: bgColor = {
+    1: "bg-unitColor1",
+    2: "bg-unitColor2",
+    3: "bg-unitColor3",
+    4: "bg-unitColor4",
+  };
   return (
-    <div className="mx-auto border-2 border-gray rounded-lg shadow mt-8 bg-white overflow-y-hidden">
+    <div
+      className={`mx-auto rounded-lg shadow mt-8 overflow-y-hidden shadow-lg ${bgColor[order]}`}
+    >
       <button
         onClick={() => setShowLessons(!showLessons)}
         className="w-full p-2 flex items-center"
       >
-        <div className="bg-green p-3 mr-5 rounded-lg">icon</div>
-        <span className="text-2xl font-medium">{name}</span>
-        <Image
-          className={`transition ease-in ml-auto mr-4 ${
+        <div className="p-2 mr-2">
+          <Image
+            src={`/unit-icons/${order}.svg`}
+            width={32}
+            height={32}
+            alt="Unit icon"
+          />
+        </div>
+        <span className="text-2xl font-medium text-white">{name}</span>
+        <IoMdArrowDropdown
+          size={32}
+          className={`text-white transition ease-in ml-auto mr-4 ${
             showLessons ? "" : "-rotate-90"
           }`}
-          src="/dropdown.svg"
-          alt="dropdown"
-          width={25}
-          height={25}
         />
       </button>
 
@@ -56,6 +74,7 @@ UnitCardProps) => {
             title={lesson.name}
             description={lesson.description}
             status={lesson.status || "locked"}
+            order={index + 1}
           />
         ))}
       </ul>

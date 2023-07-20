@@ -43,7 +43,6 @@ module.exports = {
         gray: "#B0B5C2",
         grayLight: "#F7F8FA",
         grayDark: "#606267",
-        // green: "#1A9E6E",
         violet: "#931A9E",
         primary100: "#B2E1EE",
         primary200: "#61A7C6",
@@ -66,6 +65,10 @@ module.exports = {
         accent500: "#B7771A",
         accent600: "#9B6312",
         accent700: "#663D07",
+        unitColor1: "#0f766e",
+        unitColor2: "#312e81",
+        unitColor3: "#7f1d1d",
+        unitColor4: "#a16207",
       },
       transitionProperty: {
         height: "height",
@@ -98,12 +101,10 @@ module.exports = {
       animation: {
         shake: "shake 1s linear forwards",
       },
-      // backgroundImage: {
-      //   "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-      //   "gradient-conic":
-      //     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
-      // },
     },
   },
-  plugins: [],
+  plugins: [require("daisyui")],
+  daisyui: {
+    themes: ["light"],
+  },
 };

@@ -1,16 +1,12 @@
 "use client";
 import NavLink from "./NavLink";
 import { usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 const tabs = [
   {
-    label: "Home",
-    url: "/",
-    icon: "m21.743 12.331l-9-10c-.379-.422-1.107-.422-1.486 0l-9 10a.998.998 0 0 0-.17 1.076c.16.361.518.593.913.593h2v7a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-4h4v4a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-7h2a.998.998 0 0 0 .743-1.669z",
-  },
-  {
     label: "Course",
-    url: "/course",
+    url: "/",
     icon: "M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z",
   },
   {
@@ -32,9 +28,8 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
     return children;
   }
   return (
-    //sticky flex justify-between
     <div>
-      <nav className="fixed bottom-0 z-50 w-full h-16 bg-primary400 text-white sm:sticky sm:top-0 sm:h-11 ">
+      <nav className="fixed bottom-0 z-20 w-full h-16 bg-primary400 text-white sm:sticky sm:top-0 sm:h-11 ">
         <div className="h-full sm:container flex align-middle sm:justify-between">
           <div className="hidden font-semibold text-lg self-center p-2 mr-10 sm:block cursor-pointer">
             IM

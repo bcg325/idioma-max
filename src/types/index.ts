@@ -36,12 +36,14 @@ export type Course = {
 
 export type CardSet = {
   id: string;
+  creatorId: string;
   name: string;
   imageUrl?: string;
   _count: {
     cards: number;
   };
   cards: Card[];
+  saved?: boolean;
 };
 
 export type Card = {

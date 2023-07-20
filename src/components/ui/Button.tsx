@@ -4,7 +4,7 @@ import React from "react";
 interface Props {
   children: React.ReactNode;
   className?: string;
-  onClick?: (e: React.MouseEvent<HTMLElement>) => void;
+  onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
   color?: string;
   rounding?: string;
