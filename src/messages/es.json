@@ -2,6 +2,64 @@
   "Nav": {
     "course": "Curso",
     "cards": "Tarjetas",
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "login": "Iniciar sesión"
+  },
+  "Lesson": {
+    "check": "Comprobar",
+    "exercises": {
+      "translate": "Traduce la frase",
+      "fillBlank": "Completa la frase",
+      "buildSentence": "Construye la frase"
+    },
+    "feedback": {
+      "correct": "¡Correcto!",
+      "incorrect": "Respuesta correcta:",
+      "continue": "Continuar"
+    }
+  },
+  "Cards": {
+    "main": {
+      "mySets": "Mis Grupos",
+      "newSet": "Nuevo grupo",
+      "noSets": "Crea o guarda un grupo para empezar",
+      "seeAll": "Ver todo",
+      "discover": "Descubrir"
+    },
+    "sets": {
+      "cards": "tarjetas",
+      "review": "Revisar",
+      "rename": "Renombrar",
+      "edit": "Editar",
+      "delete": "Borrar",
+      "newCard": "Nueva Tarjeta",
+      "editModal": {
+        "newCard": "Nueva Tarjeta",
+        "editCard": "Editar Tarjeta",
+        "front": "Frente",
+        "back": "Reverso",
+        "done": "Hecho"
+      }
+    }
+  },
+  "Profile": {},
+  "Auth": {
+    "login": "Iniciar sesión",
+    "loggedIn": "Sesión iniciada",
+    "signup": "Regístrar",
+    "signedUp": "Registrado",
+    "email": "Email",
+    "name": "Nombre",
+    "nameRequired": "Nombre requerido",
+    "nameInvalid": "El nombre debe tener menos de 50 caracteres",
+    "emailRequired": "Se requiere correo electrónico",
+    "emailInvalid": "El email no es válido",
+    "password": "Contraseña",
+    "passwordRequired": "Se requiere contraseña",
+    "passwordInvalid": "La contraseña debe tener al menos 8 caracteres",
+    "noAccount": "¿No tienes una cuenta?",
+    "haveAccount": "¿Ya tienes una cuenta?",
+    "or": "o",
+    "google": "Continuar con Google"
   }
 }

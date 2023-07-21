@@ -2,15 +2,22 @@
 import { useState, useEffect, useContext } from "react";
 import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page";
 import shuffle from "../../utils/shuffle";
+import useTTS from "@/hooks/useTTS";
 
 interface MultipleChoiceProps {
   options: string[];
   answer: string;
+  lang: string;
 }
 
-const MultipleChoice: React.FC<MultipleChoiceProps> = ({ options, answer }) => {
+const MultipleChoice: React.FC<MultipleChoiceProps> = ({
+  options,
+  answer,
+  lang,
+}) => {
   const [choices, setChoices] = useState<string[]>([...options]);
   const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
+  const playSound = useTTS();
 
   useEffect(() => {
     const optionsCopy = [...options, answer];
@@ -18,12 +25,16 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({ options, answer }) => {
     setChoices(optionsCopy);
   }, [options, answer]);
 
+  const handleChoiceClick = (choice: string) => {
+    playSound(choice, lang);
+    setUserAnswer(choice);
+  };
   return (
     <div className="flex flex-col gap-1.5 w-full">
       {choices.map((choice, index) => (
         <button
           key={index}
-          onClick={() => setUserAnswer(choice)}
+          onClick={() => handleChoiceClick(choice)}
           className={`
           ${
             userAnswer === choice

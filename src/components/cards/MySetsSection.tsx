@@ -1,5 +1,5 @@
 "use client";
-import Link from "next/link";
+import Link from "next-intl/link";
 import Button from "@/components/ui/Button";
 import { FiPlus } from "react-icons/fi";
 import { IoMdArrowDropright } from "react-icons/io";
@@ -8,7 +8,8 @@ import { CardSet as CardSetType } from "@/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createCardSet } from "@/app/store/cards";
 import { useCourse } from "@/hooks/useCourse";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next-intl/client";
+import { useTranslations } from "next-intl";
 
 interface MySetsSectionProps {
   count: number;
@@ -20,6 +21,7 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
   const pathname = usePathname();
   const queryClient = useQueryClient();
   const { courses, course } = useCourse();
+  const t = useTranslations("Cards.main");
 
   const newSetMutation = useMutation({
     mutationFn: () => createCardSet(course!.id),
@@ -39,7 +41,7 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
       <div className="flex flex-col gap-2 xs:flex-row justify-between">
         <Link className="w-fit" href={`/cards/my-sets`}>
           <h1 className="text-2xl font-bold flex items-center ">
-            <span>My Sets</span>
+            <span>{t("mySets")}</span>
             <span className="ml-2 text-base font-normal">{count}</span>
             <IoMdArrowDropright
               size={20}
@@ -52,11 +54,11 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
           onClick={handleNewSet}
           color=""
           rounding="rounded-3xl"
-          className="text-white w-full xs:w-40 text-md py-1 "
+          className="text-white w-full xs:w-44 text-md oy-1 px-2"
         >
           <div className="flex items-center justify-center space-x-2">
             <FiPlus size={22} className="" />
-            <span>New Set</span>
+            <span>{t("newSet")}</span>
           </div>
         </Button>
       </div>
@@ -73,7 +75,7 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
           ))}
         </div>
       ) : (
-        <div className="mt-5">No card sets</div>
+        <div className="mt-5">{t("noSets")}</div>
       )}
       {pathname !== "/cards/my-sets" && (
         <div className="flex justify-center">
@@ -81,7 +83,7 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
             href={`/cards/my-sets`}
             className="bg-white mt-5 border-2 border-primary400 text-primary500  w-fit text-center p-1 px-5 rounded-full font-medium"
           >
-            See all
+            {t("seeAll")}
           </Link>
         </div>
       )}

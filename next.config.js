@@ -7,6 +7,11 @@ const nextConfig = {
         destination: "/course",
         permanent: true,
       },
+      {
+        source: "/es",
+        destination: "/es/course",
+        permanent: true,
+      },
     ];
   },
 };

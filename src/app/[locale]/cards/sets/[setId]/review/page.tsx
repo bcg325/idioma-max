@@ -108,7 +108,7 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
   return (
     <div className="container min-h-fit h-full lg:max-w-4xl">
       <ProgressTopBar
-        closeLink={pathName.substring(0, pathName.lastIndexOf("/"))}
+        closeLink={`/cards/sets/${setId}`}
         current={currentCardIndex + 1}
         total={reviewCards.length}
       />

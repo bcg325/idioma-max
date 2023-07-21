@@ -1,10 +1,11 @@
 import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page";
 import { useState, useContext, useEffect } from "react";
-
+import useTTS from "@/hooks/useTTS";
 import BuildWord from "./BuildWord";
 
 interface BuildProps {
   options: string[];
+  lang: string;
 }
 
 type wordObjType = {
@@ -13,7 +14,8 @@ type wordObjType = {
   id: number;
 };
 
-const Build: React.FC<BuildProps> = ({ options }) => {
+const Build: React.FC<BuildProps> = ({ options, lang }) => {
+  const playSound = useTTS();
   const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
   const [selectedWords, setSelectedWords] = useState<wordObjType[]>([]);
   const [wordList, setWordList] = useState<wordObjType[]>(
@@ -39,6 +41,7 @@ const Build: React.FC<BuildProps> = ({ options }) => {
         });
       });
     } else {
+      playSound(clickedWord, lang);
       const newWordObj: wordObjType = {
         word: clickedWord,
         chosen: true,

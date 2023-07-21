@@ -4,6 +4,7 @@ import { useState } from "react";
 import Modal from "@/components/ui/Modal";
 import Button from "../ui/Button";
 import { createCard, editCard } from "@/app/store/cards";
+import { useTranslations } from "next-intl";
 
 interface EditCardModalProps {
   isOpen: boolean;
@@ -24,6 +25,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({
   const queryClient = useQueryClient();
   const [frontText, setFrontText] = useState(currentFrontText || "");
   const [backText, setBackText] = useState(currentBackText || "");
+  const t = useTranslations("Cards.sets.editModal");
 
   const newCardMutation = useMutation({
     mutationFn: () => createCard(setId, frontText, backText),
@@ -67,12 +69,12 @@ const EditCardModal: React.FC<EditCardModalProps> = ({
     <Modal isOpen={isOpen} handleClose={handleClose}>
       <div className="flex flex-col items-center">
         <h1 className="text-2xl font-bold mb-6">
-          {currentCardId ? "Edit Card" : "New Card"}
+          {currentCardId ? t("editCard") : t("newCard")}
         </h1>
         <form className="w-full flex flex-col gap-5">
           <div className="flex flex-col gap-2">
             <label htmlFor="frontText" className="font-medium">
-              Front
+              {t("front")}
             </label>
             <textarea
               name="frontText"
@@ -84,7 +86,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({
           </div>
           <div className="flex flex-col gap-2">
             <label htmlFor="backText" className="font-medium">
-              Back
+              {t("back")}
             </label>
             <textarea
               name="backText"
@@ -99,7 +101,7 @@ const EditCardModal: React.FC<EditCardModalProps> = ({
             disabled={!frontText || !backText}
             className="text-white w-full"
           >
-            Done
+            {t("done")}
           </Button>
         </form>
       </div>

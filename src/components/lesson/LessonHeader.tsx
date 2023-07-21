@@ -2,20 +2,13 @@ import Image from "next/image";
 import Button from "../ui/Button";
 import { useCallback } from "react";
 import { HiOutlineSpeakerWave } from "react-icons/hi2";
-
+import useTTS from "@/hooks/useTTS";
 interface LessonHeaderProps {
   title: string;
   imageUrl: string;
   term: string;
   isFillBlank: boolean;
-}
-
-let speech_voices: SpeechSynthesisVoice[];
-if (window) {
-  speech_voices = window.speechSynthesis.getVoices();
-  window.speechSynthesis.onvoiceschanged = () => {
-    speech_voices = window.speechSynthesis.getVoices();
-  };
+  lang: string;
 }
 
 const LessonHeader: React.FC<LessonHeaderProps> = ({
@@ -23,15 +16,9 @@ const LessonHeader: React.FC<LessonHeaderProps> = ({
   imageUrl,
   term,
   isFillBlank,
+  lang,
 }) => {
-  const playSound = useCallback(() => {
-    const msg = new SpeechSynthesisUtterance();
-
-    msg.voice = speech_voices[4];
-    msg.text = term;
-    // voices[4] for english, voices[7] for spanish
-    window.speechSynthesis.speak(msg);
-  }, [term]);
+  const playSound = useTTS();
 
   return (
     <div className=" w-full flex flex-col items-center mt-2 mb-4">
@@ -48,7 +35,7 @@ const LessonHeader: React.FC<LessonHeaderProps> = ({
 
       {!isFillBlank && (
         <button
-          onClick={playSound}
+          onClick={() => playSound(term, lang)}
           className=" flex flex-col items-center gap-0.5 text-2xl text-medium text-center rounded-xl px-2.5 hover:bg-primary200/10"
         >
           <span className="after:content-[attr(after)]">{term}</span>

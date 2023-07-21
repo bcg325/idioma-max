@@ -7,13 +7,14 @@ import {
   Dispatch,
   SetStateAction,
   useMemo,
+  useCallback,
 } from "react";
 import { Course } from "@/types";
-
+import { usePathname, useRouter } from "next-intl/client";
 interface CourseContextType {
   courses: Course[];
   course: Course | null;
-  selectCourse: (courseId: string) => void;
+  selectCourse: (courseId: string, change: boolean) => void;
 }
 
 export const CourseContext = createContext<CourseContextType>({
@@ -31,28 +32,38 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
   courses,
   children,
 }) => {
+  const pathname = usePathname();
+  const router = useRouter();
   const [course, setCourse] = useState<Course | null>(null);
   const [checkedCourse, setCheckedCourse] = useState(false);
 
-  const selectCourse = (courseId: string) => {
-    const newCourse = courses.find(
-      (course) => course.id === courseId
-    ) as Course;
-    setCourse(newCourse);
-    if (typeof window != "undefined") {
-      localStorage.setItem("currentCourseId", JSON.stringify(courseId));
-    }
-  };
+  const selectCourse = useCallback(
+    (courseId: string, change: boolean) => {
+      const newCourse = courses.find(
+        (course) => course.id === courseId
+      ) as Course;
+      setCourse(newCourse);
+
+      if (typeof window != "undefined") {
+        localStorage.setItem("currentCourseId", JSON.stringify(courseId));
+      }
+
+      if (change) {
+        router.push("/", { locale: newCourse.fromLanguage.locale });
+      }
+    },
+    [courses, router]
+  );
 
   useEffect(() => {
     if (!course && typeof window != "undefined") {
       const localCurrentCourseId = localStorage.getItem("currentCourseId");
       if (localCurrentCourseId) {
-        selectCourse(JSON.parse(localCurrentCourseId));
+        selectCourse(JSON.parse(localCurrentCourseId), false);
       }
     }
     setCheckedCourse(true);
-  }, []);
+  }, [course, selectCourse]);
 
   if (!checkedCourse) {
     return;
@@ -69,7 +80,7 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
             {courses.map((course) => (
               <button
                 key={course.id}
-                onClick={() => selectCourse(course.id)}
+                onClick={() => selectCourse(course.id, true)}
                 className="bg-white text-center border-2 border-gray shadow-lg rounded-xl p-3"
               >
                 <h1 className="text-lg font-medium">{course.name}</h1>

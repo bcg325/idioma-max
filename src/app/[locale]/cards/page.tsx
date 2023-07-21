@@ -20,17 +20,17 @@ const CardsPage = () => {
     queryFn: () => getDiscoverSets(course!.id, 6),
   });
 
-  if (userSets.isLoading || discoverSets.isLoading) {
+  if (userSets.isLoading && discoverSets.isLoading) {
     return <div>Loading...</div>;
   }
 
-  if (!userSets.data || !discoverSets.data) {
+  if (!userSets.data && !discoverSets.data) {
     return;
   }
 
   return (
     <div className="container h-full pt-5 max-w-5xl">
-      {session?.user && userSets.data && (
+      {session && userSets?.data && (
         <>
           <MySetsSection
             count={userSets.data.count}
@@ -39,10 +39,12 @@ const CardsPage = () => {
           <div className="w- bg-gray h-[1px] rounded-full my-8"></div>
         </>
       )}
-      <DiscoverSetsSection
-        count={discoverSets.data.count}
-        cardSets={discoverSets.data.sets}
-      />
+      {discoverSets.data && (
+        <DiscoverSetsSection
+          count={discoverSets.data.count}
+          cardSets={discoverSets.data.sets}
+        />
+      )}
     </div>
   );
 };

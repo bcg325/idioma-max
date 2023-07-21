@@ -1,15 +1,15 @@
 "use client";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-intl/client";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Error from "@/components/ui/Error";
-import Link from "next/link";
+import Link from "next-intl/link";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
-import { redirect } from "next/navigation";
 import { toast } from "react-hot-toast";
+import { useTranslations } from "next-intl";
 
 type FormData = {
   name: string;
@@ -20,6 +20,7 @@ type FormData = {
 const SignUp = () => {
   const session = useSession();
   const router = useRouter();
+  const t = useTranslations("Auth");
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const {
@@ -45,14 +46,16 @@ const SignUp = () => {
       setServerError(resData.message);
     }
     if (res.ok) {
-      toast.success("Signed up successfully!");
+      toast.success(t("signedUp"));
     }
   });
 
   return (
-    <div>
+    <div className="pt-6">
       <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-grayLight rounded-lg shadow-xl p-6">
-        <h1 className="text-3xl font-bold text-dark text-center">Sign Up</h1>
+        <h1 className="text-3xl font-bold text-dark text-center">
+          {t("signup")}
+        </h1>
         <form
           onSubmit={onSubmit}
           className="flex flex-col gap-4 items-center mt-2"
@@ -63,13 +66,13 @@ const SignUp = () => {
               id="name"
               className="w-full"
               type="text"
-              label="Name"
+              label={t("name")}
               error={!!errors?.name?.message}
               {...register("name", {
-                required: "Name is required",
+                required: t("nameRequired"),
                 maxLength: {
                   value: 50,
-                  message: "Name must be fewer than 50 characters",
+                  message: t("nameInvalid"),
                 },
               })}
             />
@@ -80,13 +83,13 @@ const SignUp = () => {
               id="email"
               className="w-full"
               type="email"
-              label="Email"
+              label={t("email")}
               error={!!errors?.email?.message}
               {...register("email", {
-                required: "Email is required",
+                required: t("emailRequired"),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
+                  message: t("emailInvalid"),
                 },
               })}
             />
@@ -97,13 +100,13 @@ const SignUp = () => {
               id="password"
               className="w-full"
               type="password"
-              label="Password"
+              label={t("password")}
               error={!!errors?.password?.message}
               {...register("password", {
-                required: "Password is required",
+                required: t("passwordRequired"),
                 minLength: {
                   value: 8,
-                  message: "Password must have at least 8 characters",
+                  message: t("passwordInvalid"),
                 },
               })}
             />
@@ -111,20 +114,22 @@ const SignUp = () => {
               <Error message={errors.password.message} />
             )}
           </div>
-          <Button className="w-full text-white bg-secondary400">Sign Up</Button>
+          <Button className="w-full text-white bg-secondary400">
+            {t("signup")}
+          </Button>
           <span>
-            Have an account already?
+            {t("haveAccount")}
             <Link
-              href="/auth/login"
+              href="/login"
               className="underline text-dark font-medium ml-2"
             >
-              Log In
+              {t("login")}
             </Link>
           </span>
         </form>
-        <p className="text-center">or</p>
+        <p className="text-center">{t("or")}</p>
         <div className="">
-          <GoogleSignInButton />
+          <GoogleSignInButton text={t("google")} />
         </div>
       </div>
     </div>

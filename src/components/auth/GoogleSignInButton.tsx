@@ -4,7 +4,10 @@ import { useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 import Button from "@/components/ui/Button";
 
-const GoogleSignInButton = () => {
+interface GoogleSignInButtonProps {
+  text: string;
+}
+const GoogleSignInButton: React.FC<GoogleSignInButtonProps> = ({ text }) => {
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl");
   return (
@@ -12,7 +15,7 @@ const GoogleSignInButton = () => {
       onClick={() => signIn("google")}
       className="w-full text-black bg-white border-2 border-grayLight"
     >
-      Continue with Google
+      {text}
     </Button>
   );
 };

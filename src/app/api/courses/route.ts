@@ -2,11 +2,16 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  const res = await prisma.course.findMany({
+  const courses = await prisma.course.findMany({
     select: {
       id: true,
       name: true,
       description: true,
+      fromLanguage: {
+        select: {
+          locale: true,
+        },
+      },
       units: {
         orderBy: {
           position: "asc",
@@ -29,5 +34,9 @@ export async function GET() {
       },
     },
   });
-  return NextResponse.json(res);
+
+  if (!courses) {
+    return NextResponse.json({ error: "No courses found" }, { status: 404 });
+  }
+  return NextResponse.json(courses, { status: 200 });
 }
