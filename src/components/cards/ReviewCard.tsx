@@ -23,11 +23,11 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       flex 
       items-center 
       justify-center 
-      border-grayDark 
+      border-grayDark/60
       h-96
       max-h-full
       w-full
-      shadow-lg
+      shadow-xl
       text-center
       transition-all 
       duration-300
@@ -59,12 +59,13 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
             className={`flex flex-col h-full w-full
          `}
           >
-            <h1 className="text-xl font-medium w-full h-fit border-b-2 border-gray pb-2 mt-1 mb-2 ">
+            <h1 className="text-xl font-medium w-full h-fit  pb-2 mt-1 mb-2 ">
               {front}
             </h1>
-            {/* <div className="h-[2px] my-2 bg-gray w-full rounded-full"></div> */}
             <div className="flex w-full items-center justify-center flex-1">
-              <h2 className="relative bottom-6 text-3xl font-medium">{back}</h2>
+              <h2 className="relative bottom-6 text-3xl font-semibold">
+                {back}
+              </h2>
             </div>
           </div>
         ) : (

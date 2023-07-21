@@ -1,16 +1,21 @@
 "use client";
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 
-const speech_voices: SpeechSynthesisVoice[] = speechSynthesis.getVoices();
-
+let speechVoices: SpeechSynthesisVoice[];
+if (window) {
+  speechVoices = window.speechSynthesis.getVoices();
+  window.speechSynthesis.onvoiceschanged = () => {
+    speechVoices = window.speechSynthesis.getVoices();
+  };
+}
 const useTTS = () => {
   const playSound = useCallback((term: string, lang: string) => {
-    console.log(lang);
+    if (speechVoices.length <= 0) return;
     const msg = new SpeechSynthesisUtterance(term);
     if (lang === "EN") {
-      msg.voice = speech_voices[4];
+      msg.voice = speechVoices[4];
     } else if (lang === "ES") {
-      msg.voice = speech_voices[7];
+      msg.voice = speechVoices[7];
     }
 
     if (speechSynthesis.speaking) {

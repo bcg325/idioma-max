@@ -16,6 +16,12 @@
       "correct": "¡Correcto!",
       "incorrect": "Respuesta correcta:",
       "continue": "Continuar"
+    },
+    "completed": {
+      "title": "¡Lección completada!",
+      "correct": "correcto",
+      "incorrect": "incorrecto",
+      "finish": "Terminar"
     }
   },
   "Cards": {
