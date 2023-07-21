@@ -1,7 +1,9 @@
+"use client";
 import { useState, useEffect } from "react";
 import Button from "../ui/Button";
 import { BsCheckCircle } from "react-icons/bs";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { useTranslations } from "next-intl";
 
 interface FeedbackModalProps {
   isOpen?: boolean;
@@ -16,7 +18,9 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
   correctAnswer,
   onClose,
 }) => {
-  const title = isCorrect ? "Correct!" : "Correct answer:";
+  const t = useTranslations("Lesson.feedback");
+
+  const title = isCorrect ? t("correct") : t("incorrect");
   const [showModal, setShowModal] = useState(isOpen);
 
   useEffect(() => {
@@ -87,7 +91,7 @@ const FeedbackModal: React.FC<FeedbackModalProps> = ({
             className="my-3 text-white w-44"
             onClick={handleClose}
           >
-            Continue
+            {t("continue")}
           </Button>
         </div>
       </div>

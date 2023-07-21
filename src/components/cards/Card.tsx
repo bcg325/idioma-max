@@ -4,6 +4,7 @@ import OptionsDropdown, { options } from "../ui/OptionsDropdown";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCard } from "@/app/store/cards";
 import EditCardModal from "./EditCardModal";
+import { useTranslations } from "next-intl";
 
 interface CardProps {
   id: string;
@@ -23,10 +24,17 @@ const Card: React.FC<CardProps> = ({
   favorite,
 }) => {
   const queryClient = useQueryClient();
+  const t = useTranslations("Cards.sets");
 
   const [options, setOptions] = useState<options>({
-    Edit: false,
-    Delete: false,
+    Edit: {
+      label: t("edit"),
+      active: false,
+    },
+    Delete: {
+      label: t("delete"),
+      active: false,
+    },
   });
 
   const deleteCardMutation = useMutation({
@@ -43,20 +51,32 @@ const Card: React.FC<CardProps> = ({
       deleteCardMutation.mutate();
     }
     setOptions((prev) => {
-      return { ...prev, [option]: true };
+      return {
+        ...prev,
+        [option]: {
+          label: prev[option].label,
+          active: true,
+        },
+      };
     });
   };
 
   const handleCloseEditModal = () => {
     setOptions((prev) => {
-      return { ...prev, Edit: false };
+      return {
+        ...prev,
+        Edit: {
+          label: prev.Edit.label,
+          active: false,
+        },
+      };
     });
   };
 
   return (
     <div className="bg-white border-2 border-gray rounded-xl py-2 p-4">
       <EditCardModal
-        isOpen={options.Edit}
+        isOpen={options.Edit.active}
         handleClose={handleCloseEditModal}
         setId={setId}
         currentCardId={id}

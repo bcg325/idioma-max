@@ -1,14 +1,16 @@
 "use client";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
 import Error from "@/components/ui/Error";
-import Link from "next/link";
+import Link from "next-intl/link";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { toast } from "react-hot-toast";
+import { useTranslations } from "next-intl";
+import { useRouter } from "next-intl/client";
 
 type FormData = {
   email: string;
@@ -18,6 +20,7 @@ type FormData = {
 const LogIn = () => {
   const session = useSession();
   const router = useRouter();
+  const t = useTranslations("Auth");
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const searchParams = useSearchParams();
@@ -30,7 +33,7 @@ const LogIn = () => {
 
   useEffect(() => {
     if (session?.status === "authenticated") {
-      router.push("/course");
+      router.push("/");
     }
   });
 
@@ -41,7 +44,7 @@ const LogIn = () => {
     const signInResult = await signIn("credentials", {
       ...data,
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/course",
+      callbackUrl: searchParams?.get("from") || "/",
     });
 
     setIsLoading(false);
@@ -50,13 +53,15 @@ const LogIn = () => {
       setServerError(signInResult.error);
     }
 
-    toast.success("Logged in successfully!");
+    toast.success(t("loggedIn"));
   });
 
   return (
-    <div>
+    <div className="pt-6">
       <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-grayLight rounded-lg shadow-xl p-6">
-        <h1 className="text-3xl font-bold text-dark text-center">Login</h1>
+        <h1 className="text-3xl font-bold text-dark text-center">
+          {t("login")}
+        </h1>
         <form
           onSubmit={onSubmit}
           className="flex flex-col gap-4 items-center mt-2"
@@ -68,13 +73,13 @@ const LogIn = () => {
               id="email"
               className="w-full"
               type="email"
-              label="Email"
+              label={t("email")}
               error={!!errors?.email?.message}
               {...register("email", {
-                required: "Email is required",
+                required: t("emailRequired"),
                 pattern: {
                   value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                  message: "Invalid email address",
+                  message: t("emailInvalid"),
                 },
               })}
             />
@@ -85,13 +90,13 @@ const LogIn = () => {
               id="password"
               className="w-full"
               type="password"
-              label="Password"
+              label={t("password")}
               error={!!errors?.password?.message}
               {...register("password", {
-                required: "Password is required",
+                required: t("passwordRequired"),
                 minLength: {
                   value: 8,
-                  message: "Password must have at least 8 characters",
+                  message: t("passwordInvalid"),
                 },
               })}
             />
@@ -99,20 +104,22 @@ const LogIn = () => {
               <Error message={errors.password.message} />
             )}
           </div>
-          <Button className="w-full text-white bg-secondary400">Log In</Button>
+          <Button className="w-full text-white bg-secondary400">
+            {t("login")}
+          </Button>
           <span>
-            Don&apos;t have an account?
+            {t("noAccount")}
             <Link
-              href="/auth/signup"
+              href="/signup"
               className="underline text-dark font-medium ml-2"
             >
-              Sign Up
+              {t("signup")}
             </Link>
           </span>
         </form>
-        <p className="text-center">or</p>
+        <p className="text-center">{t("or")}</p>
         <div className="">
-          <GoogleSignInButton />
+          <GoogleSignInButton text={t("google")} />
         </div>
       </div>
     </div>

@@ -2,13 +2,14 @@
 import { useState, createContext, Dispatch, SetStateAction } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLessonById, updateCourseProgress } from "@/app/store/courses";
-import Link from "next/link";
+import Link from "next-intl/link";
 import ExerciseInput from "@/components/lesson/ExerciseInput";
 import ProgressTopBar from "@/components/ui/ProgressTopBar";
 import Button from "@/components/ui/Button";
 import ExerciseModal from "@/components/lesson/FeedbackModal";
 import { formatFillBlankAnswer } from "@/utils/formatFillBlankAnswer";
 import { useSession } from "next-auth/react";
+import { useTranslations } from "next-intl";
 
 interface UserAnswerContextType {
   userAnswer: string;
@@ -37,6 +38,7 @@ interface LessonPageProps {
 }
 
 const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
+  const t = useTranslations("Lesson");
   const queryClient = useQueryClient();
   const { data: session, status } = useSession();
 
@@ -115,8 +117,9 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
   };
 
   const correctAnswer =
-    currentExercise.exerciseType === "sentence_blank" && !feedback?.isCorrect
-      ? formatFillBlankAnswer(currentExercise.word, currentExercise.answer)
+    currentExercise.exerciseType.name === "sentence_blank" &&
+    !feedback?.isCorrect
+      ? formatFillBlankAnswer(currentExercise.term, currentExercise.answer)
       : currentExercise.answer;
 
   return (
@@ -126,7 +129,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
           <>
             <ProgressTopBar
               current={currExerciseIndex + 1}
-              total={exercises.length}
+              total={exercises?.length || 0}
               closeLink="/"
             />
             <ExerciseModal
@@ -137,10 +140,12 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
             />
             <ExerciseInput
               term={currentExercise.term}
+              termLang={currentExercise.termLang || "EN"}
               exerciseType={currentExercise.exerciseType.name}
               answer={currentExercise.answer}
               options={currentExercise.options}
-              imageUrl={currentExercise.imageUrl}
+              optionsLang={currentExercise.optionsLang || "EN"}
+              imageUrl={currentExercise.imageUrl || ""}
             />
             <div className="flex justify-center w-full py-3">
               <Button
@@ -148,7 +153,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
                 className="text-white w-44"
                 onClick={handleCheckAnswer}
               >
-                Check
+                {t("check")}
               </Button>
             </div>
           </>

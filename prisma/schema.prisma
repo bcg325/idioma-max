@@ -54,6 +54,7 @@ model Account {
 model Language {
   id                      String   @id @default(cuid())
   name                    String   @unique
+  locale                  String
   coursesFromLanguage     Course[] @relation("fromLanguage")
   coursesLearningLanguage Course[] @relation("learningLanguage")
 }
@@ -116,8 +117,10 @@ model Exercise {
   lesson         Lesson       @relation(fields: [lessonId], references: [id], onDelete: Cascade)
   position       Int
   term           String?
+  termLang       String?
   answer         String?
   options        String[]
+  optionsLang    String?
   imageUrl       String?
   readingPageId  Int?
   exerciseTypeId String

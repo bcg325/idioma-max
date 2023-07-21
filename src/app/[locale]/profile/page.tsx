@@ -1,5 +1,4 @@
 "use client";
-import { redirect } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import Button from "@/components/ui/Button";
 import Auth from "@/components/auth/Auth";
@@ -9,11 +8,17 @@ const ProfilePage = () => {
 
   return (
     <Auth>
-      <div>
-        <h1>Logged in as</h1>
-        <p>{user?.name}</p>
-        <p>{user?.email}</p>
-        <Button onClick={() => signOut()}>Log out</Button>
+      <div className="container h-full pt-5 max-w-5xl">
+        <div className="w-full flex flex-col items-center">
+          <h1 className="text-2xl font-bold">Profile</h1>
+          <p>
+            Logged in as <span className="font-medium">{user?.name}</span>
+          </p>
+          <p>{user?.email}</p>
+          <Button className="text-white" onClick={() => signOut()}>
+            Log out
+          </Button>
+        </div>
       </div>
     </Auth>
   );

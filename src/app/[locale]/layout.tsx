@@ -40,7 +40,7 @@ export default async function RootLayout({
   const courses: Course[] = await getCourses();
 
   return (
-    <html lang="en">
+    <html lang={locale}>
       <body className={openSans.className}>
         <ToasterContext />
         <Providers>

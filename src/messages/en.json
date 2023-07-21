@@ -2,6 +2,64 @@
   "Nav": {
     "course": "Course",
     "cards": "Cards",
-    "profile": "Profile"
+    "profile": "Profile",
+    "login": "Log In"
+  },
+  "Lesson": {
+    "check": "Comprobar",
+    "exercises": {
+      "translate": "Translate the phrase",
+      "fillBlank": "Complete the phrase",
+      "buildSentence": "Build the phrase"
+    },
+    "feedback": {
+      "correct": "Correct!",
+      "incorrect": "Correct answer:",
+      "continue": "Continue"
+    }
+  },
+  "Cards": {
+    "main": {
+      "mySets": "My Sets",
+      "newSet": "New Set",
+      "noSets": "Create or save a set to get started",
+      "seeAll": "See all",
+      "discover": "Discover"
+    },
+    "sets": {
+      "cards": "cards",
+      "review": "Review",
+      "rename": "Rename",
+      "edit": "Edit",
+      "delete": "Delete",
+      "newCard": "New Card",
+      "editModal": {
+        "newCard": "New Card",
+        "editCard": "Edit Card",
+        "front": "Front",
+        "back": "Back",
+        "done": "Done"
+      }
+    }
+  },
+  "Profile": {},
+  "Auth": {
+    "login": "Log In",
+    "loggedIn": "Logged In",
+    "signup": "Sign Up",
+    "signedUp": "Signed Up",
+    "name": "Name",
+    "nameRequired": "Name required",
+    "nameInvalid": "Name must have fewer than 50 characters",
+    "email": "Email",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Invalid email address",
+    "password": "Password",
+    "passwordRequired": "Password is required",
+    "passwordInvalid": "Password must have at least 8 characters",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Have an account already?",
+    "or": "or",
+    "google": "Continue with Google"
   }
 }

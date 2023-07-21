@@ -26,8 +26,10 @@ export async function GET(
         select: {
           id: true,
           term: true,
+          termLang: true,
           answer: true,
           options: true,
+          optionsLang: true,
           imageUrl: true,
           readingPageId: true,
           exerciseType: {

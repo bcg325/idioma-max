@@ -1,5 +1,6 @@
 import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page";
 import { useState, useContext, useEffect } from "react";
+import useTTS from "@/hooks/useTTS";
 import BuildWord from "./BuildWord";
 import shuffle from "../../utils/shuffle";
 import BlankSentence from "./BlankSentence";
@@ -14,12 +15,19 @@ interface FillBlankProps {
   sentence: string;
   options: string[];
   answer: string;
+  lang: string;
 }
 
-const FillBlank: React.FC<FillBlankProps> = ({ sentence, options, answer }) => {
+const FillBlank: React.FC<FillBlankProps> = ({
+  sentence,
+  options,
+  answer,
+  lang,
+}) => {
   const [selectedWord, setSelectedWord] = useState<wordObjType | null>(null);
   const [wordList, setWordList] = useState<wordObjType[]>();
   const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
+  const playSound = useTTS();
 
   useEffect(() => {
     const optionsCopy = [...options, answer];
@@ -52,6 +60,7 @@ const FillBlank: React.FC<FillBlankProps> = ({ sentence, options, answer }) => {
         });
       });
     } else {
+      playSound(clickedWord, lang);
       const newWordObj: wordObjType = {
         word: clickedWord,
         chosen: true,
@@ -73,23 +82,6 @@ const FillBlank: React.FC<FillBlankProps> = ({ sentence, options, answer }) => {
     }
   };
 
-  //   const blank = (
-  //     <span
-  //       key={selectedWord?.id}
-  //       className="flex justify-center align-center bg-gray/50 rounded-xl mx-2 w-16 min-w-fit pb-3 border-2 border-gray/50 h-10 text-2xl "
-  //     >
-  //       {selectedWord && (
-  //         <BuildWord
-  //           id={selectedWord.id}
-  //           disabled={false}
-  //           word={selectedWord.word}
-  //           onClick={handleWordClick}
-  //         />
-  //       )}
-  //     </span>
-  //   );
-
-  //className="flex flex-col h-full w-full  gap-6 max-w-lg
   return (
     <>
       <BlankSentence

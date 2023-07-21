@@ -1,13 +1,15 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { redirect } from "next/navigation";
+import { useRouter } from "next-intl/client";
 
 const Auth = ({ children }: { children: React.ReactNode }) => {
+  const router = useRouter();
+
   const { status } = useSession({
     required: true,
     onUnauthenticated() {
-      redirect("/auth/login");
+      router.push("/login");
     },
   });
 

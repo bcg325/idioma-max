@@ -1,5 +1,5 @@
 import Image from "next/image";
-import Link from "next/link";
+import Link from "next-intl/link";
 import { BsCheckLg } from "react-icons/bs";
 import { BiLockAlt } from "react-icons/bi";
 import { BsFillPlayFill } from "react-icons/bs";

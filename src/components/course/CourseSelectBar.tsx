@@ -1,11 +1,10 @@
 "use client";
-import { useRef } from "react";
 import { Course } from "@/types";
 
 interface CourseSelectBarProps {
   courses: Course[];
   currentCourse: Course;
-  selectCourse: (courseId: string) => void;
+  selectCourse: (courseId: string, change: boolean) => void;
 }
 
 const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
@@ -14,7 +13,7 @@ const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
   selectCourse,
 }) => {
   const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    selectCourse(e.target.value);
+    selectCourse(e.target.value, true);
   };
 
   return (

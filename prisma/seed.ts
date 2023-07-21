@@ -9,17 +9,17 @@ async function main() {
 
   //create languages English and Spanish
   const english = await prisma.language.create({
-    data: { name: "English" },
+    data: { name: "English", locale: "en" },
   });
   const spanish = await prisma.language.create({
-    data: { name: "Spanish" },
+    data: { name: "Spanish", locale: "es" },
   });
 
   if (!(spanish && english)) return;
   //create ES_EN and EN_ES courses
   const englishCourse = await prisma.course.create({
     data: {
-      name: "English",
+      name: "Ingles (ES)",
       fromLanguageId: spanish.id,
       learningLanguageId: english.id,
       description: "ES_EN",
@@ -49,7 +49,7 @@ async function main() {
 
   const spanishCourse = await prisma.course.create({
     data: {
-      name: "Spanish",
+      name: "Spanish (EN)",
       fromLanguageId: english.id,
       learningLanguageId: spanish.id,
       description: "EN_ES",
@@ -314,36 +314,47 @@ async function main() {
             {
               position: 0,
               term: "How are you?",
+              termLang: "EN",
               answer: "Como estas?",
               options: ["Estas como?", "Estas bien?", "Tu estas?"],
+              optionsLang: "ES",
               exerciseTypeId: vocabExercise.id,
             },
             {
               position: 1,
               term: "My name is",
+              termLang: "EN",
               answer: "mi nombre es",
               options: ["mi", "nombre", "es", "otra", "dia", "hola", "nada"],
+              optionsLang: "ES",
+
               exerciseTypeId: grammarExercise.id,
             },
             {
               position: 2,
               term: "Good morning",
+              termLang: "EN",
               answer: "Buenos dias",
               options: ["Buenas noches", "Buenas tardes", "Buena dia"],
+              optionsLang: "ES",
               exerciseTypeId: vocabExercise.id,
             },
             {
               position: 3,
               term: "yo ~ español",
+              termLang: "ES",
               answer: "hablo",
               options: ["perdon", "bebo", "como"],
+              optionsLang: "ES",
               exerciseTypeId: fillBlankExercise.id,
             },
             {
               position: 4,
               term: "goodbye",
+              termLang: "EN",
               answer: "adiós",
               options: ["hola", "por favor", "gracias"],
+              optionsLang: "ES",
               exerciseTypeId: vocabExercise.id,
             },
           ],

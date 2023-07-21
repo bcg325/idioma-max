@@ -1,10 +1,10 @@
 "use client";
-import Link from "next/link";
+import Link from "next-intl/link";
 import { IoMdArrowDropright } from "react-icons/io";
 import CardSet from "@/components/cards/CardSet";
-// import SearchBar from "@/components/ui/SearchBar";
 import { CardSet as CardSetType } from "@/types";
-import { usePathname } from "next/navigation";
+import { usePathname } from "next-intl/client";
+import { useTranslations } from "next-intl";
 
 interface DiscoverSetsSectionProps {
   count: number;
@@ -15,13 +15,14 @@ const DiscoverSetsSection: React.FC<DiscoverSetsSectionProps> = ({
   cardSets,
 }) => {
   const pathname = usePathname();
+  const t = useTranslations("Cards.main");
 
   return (
     <section>
       <div className="items-center flex flex-col gap-2 xs:flex-row justify-between">
         <Link href={`/cards/discover`} className="w-fit">
           <h1 className="text-2xl font-bold flex items-center">
-            <span>Discover</span>
+            <span>{t("discover")}</span>
             <span className="ml-2 text-base font-normal">{count}</span>
             <IoMdArrowDropright
               size={20}
@@ -48,7 +49,7 @@ const DiscoverSetsSection: React.FC<DiscoverSetsSectionProps> = ({
             href={`/cards/discover`}
             className="bg-white mt-5 border-2 border-primary400 text-primary500 w-fit text-center p-1 px-5 rounded-full font-medium"
           >
-            See all
+            {t("seeAll")}
           </Link>
         </div>
       )}

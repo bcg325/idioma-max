@@ -1,7 +1,10 @@
 import { BsThreeDots } from "react-icons/bs";
 
 export type options = {
-  [key: string]: boolean;
+  [key: string]: {
+    label: string;
+    active: boolean;
+  };
 };
 
 interface OptionsDropdownProps {
@@ -29,7 +32,7 @@ const OptionsDropdown: React.FC<OptionsDropdownProps> = ({
       >
         {Object.keys(options).map((option, index) => (
           <li key={index}>
-            <a onClick={() => onSelect(option)}>{option}</a>
+            <a onClick={() => onSelect(option)}>{options[option].label}</a>
           </li>
         ))}
       </ul>
