@@ -10,6 +10,7 @@ import ExerciseModal from "@/components/lesson/FeedbackModal";
 import { formatFillBlankAnswer } from "@/utils/formatFillBlankAnswer";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import LessonCompleted from "@/components/lesson/LessonCompleted";
 
 interface UserAnswerContextType {
   userAnswer: string;
@@ -41,10 +42,11 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
   const t = useTranslations("Lesson");
   const queryClient = useQueryClient();
   const { data: session, status } = useSession();
-
   const [currExerciseIndex, setCurrExerciseIndex] = useState<number>(0);
   const [userAnswer, setUserAnswer] = useState<string>("");
   const [feedback, setFeedback] = useState<FeedbackType>(null);
+  const [correctCount, setCorrectCount] = useState(0);
+  const [wrongCount, setWrongCount] = useState(0);
   const [lessonComplete, setLessonComplete] = useState<boolean>(false);
 
   const {
@@ -114,6 +116,11 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
   const handleCheckAnswer = () => {
     const correct = userAnswer === currentExercise.answer;
     setFeedback({ isCorrect: correct });
+    if (correct) {
+      setCorrectCount((prev) => prev + 1);
+    } else {
+      setWrongCount((prev) => prev + 1);
+    }
   };
 
   const correctAnswer =
@@ -158,12 +165,10 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
             </div>
           </>
         ) : (
-          <div>
-            <h1 className="text-3xl">Lesson Finished! Great job.</h1>
-            <Link href="/course">
-              <Button>Finish</Button>
-            </Link>
-          </div>
+          <LessonCompleted
+            correctAnswers={correctCount}
+            wrongAnswers={wrongCount}
+          />
         )}
       </div>
     </UserAnswerContext.Provider>

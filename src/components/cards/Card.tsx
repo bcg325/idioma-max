@@ -84,7 +84,7 @@ const Card: React.FC<CardProps> = ({
         currentBackText={back}
       />
       <div className="flex justify-between">
-        <h3 className="line-clamp-1 text-lg font-semibold text-dark line-clamp-1 ">
+        <h3 className="text-lg font-semibold text-dark line-clamp-1 ">
           {front}
         </h3>
         {canEdit && (

@@ -4,13 +4,14 @@ import ProgressTopBar from "@/components/ui/ProgressTopBar";
 import ReviewCard from "@/components/cards/ReviewCard";
 import Button from "@/components/ui/Button";
 import { PiShuffleBold } from "react-icons/pi";
-import { usePathname } from "next/navigation";
 import { BsArrowRightShort } from "react-icons/bs";
 import { BsArrowLeftShort } from "react-icons/bs";
 import { useQuery } from "@tanstack/react-query";
 import shuffle from "@/utils/shuffle";
 import { getCardSet } from "@/app/store/cards";
 import { Card } from "@/types";
+import { useRouter } from "next-intl/client";
+
 interface SetReviewPage {
   params: {
     setId: string;
@@ -19,7 +20,7 @@ interface SetReviewPage {
 
 const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
   const { setId } = params;
-  const pathName = usePathname();
+  const router = useRouter();
   const [reviewCards, setReviewCards] = useState<null | Card[]>(null);
   const [currentCardIndex, setCurrentCardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
@@ -90,7 +91,7 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
 
   const handleNextCard = () => {
     if (currentCardIndex === reviewCards.length - 1) {
-      alert("Finished review");
+      router.push(`/cards/sets/${setId}`);
       return;
     }
     setIsFlipped(false);

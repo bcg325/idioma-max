@@ -4,6 +4,8 @@ import { usePathname } from "next-intl/client";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { BiLogIn } from "react-icons/bi";
+import Link from "next-intl/link";
+import Image from "next/image";
 
 const Navbar = ({ children }: { children: React.ReactNode }) => {
   const pathname = usePathname();
@@ -20,7 +22,14 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
       <nav className="fixed bottom-0 z-20 w-full h-16 bg-primary400 text-white sm:sticky sm:top-0 sm:h-11 ">
         <div className="h-full sm:container flex sm:justify-between">
           <div className="hidden font-semibold text-lg self-center p-2 mr-10 sm:block cursor-pointer">
-            IM
+            <Link href="/">
+              <Image
+                src="/im-logo.svg"
+                width={35}
+                height={35}
+                alt="IdiomaMax logo"
+              />
+            </Link>
           </div>
           <ul className="w-full flex sm:w-fit">
             <NavLink

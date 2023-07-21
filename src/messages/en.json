@@ -16,6 +16,12 @@
       "correct": "Correct!",
       "incorrect": "Correct answer:",
       "continue": "Continue"
+    },
+    "completed": {
+      "title": "Lesson Completed!",
+      "correct": "Correct",
+      "incorrect": "Incorrect",
+      "finish": "Finish"
     }
   },
   "Cards": {

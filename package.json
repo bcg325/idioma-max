@@ -41,6 +41,8 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.0",
     "daisyui": "^3.2.1",
+    "prettier": "^3.0.0",
+    "prettier-plugin-tailwindcss": "^0.4.1",
     "prisma": "^5.0.0",
     "ts-node": "^10.9.1"
   }
