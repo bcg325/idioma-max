@@ -21,3 +21,8 @@ export const getUserProgress = async (courseId: string) => {
   const res = await axios.get(`/api/course-progress/${courseId}`);
   return res.data;
 };
+
+export const getUserProgressPercent = async (courseId: string) => {
+  const res = await axios.get(`/api/course-progress/${courseId}/percent`);
+  return res.data;
+};

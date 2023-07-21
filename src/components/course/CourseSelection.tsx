@@ -1,16 +1,10 @@
 "use client";
 
-import {
-  createContext,
-  useState,
-  useEffect,
-  Dispatch,
-  SetStateAction,
-  useMemo,
-  useCallback,
-} from "react";
+import { createContext, useState, useEffect, useCallback } from "react";
 import { Course } from "@/types";
 import { usePathname, useRouter } from "next-intl/client";
+import Image from "next/image";
+
 interface CourseContextType {
   courses: Course[];
   course: Course | null;
@@ -74,21 +68,35 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
       {course ? (
         children
       ) : (
-        <div className=" flex flex-col justify-center h-full w-full bg-grayLight">
-          <h1 className="text-3xl font-semibold text-center">Pick a course</h1>
+        <div className="container pt-8 relative flex flex-col justify-between items-center h-full bg-grayLight">
+          <Image
+            className=""
+            src="/im-logo-full.svg"
+            width={250}
+            height={250}
+            alt="Idioma Max logo"
+          />
+          {/* <h1 className="text-3xl font-semibold text-center">Pick a course</h1>
+          <h1 className="text-3xl font-semibold text-center">Elige un curso</h1> */}
           <div className="flex flex-wrap gap-4 items-center justify-center mt-5">
             {courses.map((course) => (
               <button
                 key={course.id}
                 onClick={() => selectCourse(course.id, true)}
-                className="bg-white text-center border-2 border-gray shadow-lg rounded-xl p-3"
+                className="bg-white text-center border-2 border-gray/50 shadow-lg rounded-xl p-4 hover:bg-primary100/10"
               >
-                <h1 className="text-lg font-medium">{course.name}</h1>
+                <h1 className="text-xl font-semibold">{course.name}</h1>
                 <p className="text-sm">{course.description}</p>
               </button>
             ))}
           </div>
-          <p className="text-center">Or log in</p>
+          <Image
+            className="md:w-80 lg:w-96"
+            src="/lesson-completed.svg"
+            width={260}
+            height={260}
+            alt="People studying"
+          />
         </div>
       )}
     </CourseContext.Provider>

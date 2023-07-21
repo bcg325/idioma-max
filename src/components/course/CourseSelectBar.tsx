@@ -18,7 +18,7 @@ const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
 
   return (
     <div className="sticky top-0 z-10 sm:top-11 w-full h-11 bg-primary500 text-white pr-2">
-      <div className="h-full container">
+      <div className="h-full container max-w-7xl">
         <select
           value={currentCourse.id}
           onChange={handleCourseChange}

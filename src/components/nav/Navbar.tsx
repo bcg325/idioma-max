@@ -20,7 +20,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
   return (
     <div>
       <nav className="fixed bottom-0 z-20 w-full h-16 bg-primary400 text-white sm:sticky sm:top-0 sm:h-11 ">
-        <div className="h-full sm:container flex sm:justify-between">
+        <div className="h-full sm:container sm:max-w-7xl flex sm:justify-between">
           <div className="hidden font-semibold text-lg self-center p-2 mr-10 sm:block cursor-pointer">
             <Link href="/">
               <Image
