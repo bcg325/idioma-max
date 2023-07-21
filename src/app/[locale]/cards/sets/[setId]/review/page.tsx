@@ -131,7 +131,7 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
             <PiShuffleBold size={24} />
           </Button>
         </div>
-        <div className=" w-full  flex justify-center items-center">
+        <div className=" w-full flex justify-center items-center">
           <div className="flex justify-between gap-20">
             <Button
               disabled={currentCardIndex === 0}

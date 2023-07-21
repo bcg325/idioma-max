@@ -44,13 +44,13 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={openSans.className}>
+      <body className={openSans.className + " bg-grayLight"}>
         <ToasterContext />
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>
             <CourseSelection courses={courses}>
               <Navbar>
-                <main className="min-h-screen bg-grayLight">{children}</main>
+                <main>{children}</main>
               </Navbar>
             </CourseSelection>
           </NextIntlClientProvider>

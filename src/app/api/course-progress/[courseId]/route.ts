@@ -15,7 +15,7 @@ export async function GET(
   const userId = session?.user.id;
 
   if (!userId) {
-    return NextResponse.json({});
+    return NextResponse.json({ error: "Not logged in" }, { status: 400 });
   }
   const userCourseProgress = await prisma.userCourseProgress.findMany({
     where: {

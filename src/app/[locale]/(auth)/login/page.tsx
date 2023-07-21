@@ -57,8 +57,8 @@ const LogIn = () => {
   });
 
   return (
-    <div className="pt-6">
-      <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-grayLight rounded-lg shadow-xl p-6">
+    <div className="py-10">
+      <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-gray/50 rounded-lg shadow-lg p-6">
         <h1 className="text-3xl font-bold text-dark text-center">
           {t("login")}
         </h1>
