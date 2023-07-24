@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import BuildWord from "./BuildWord";
 interface BlankSentenceProps {
   sentence: string;

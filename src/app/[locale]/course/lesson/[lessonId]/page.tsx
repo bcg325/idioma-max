@@ -1,11 +1,5 @@
 "use client";
-import {
-  useState,
-  useEffect,
-  createContext,
-  Dispatch,
-  SetStateAction,
-} from "react";
+import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLessonById, updateCourseProgress } from "@/app/store/courses";
 import ExerciseInput from "@/components/lesson/ExerciseInput";
@@ -19,12 +13,7 @@ import LessonCompleted from "@/components/lesson/LessonCompleted";
 import Loading from "@/components/ui/Loading";
 import { Exercise } from "@/types";
 import shuffle from "@/utils/shuffle";
-import { useRouter } from "next/navigation";
-
-interface UserAnswerContextType {
-  userAnswer: string;
-  setUserAnswer: Dispatch<SetStateAction<string>>;
-}
+import UserAnswerProvider from "@/components/lesson/UserAnswerProvider";
 
 type FeedbackType = {
   isCorrect: boolean;
@@ -35,11 +24,6 @@ type ProgressData = {
     [key: string]: boolean;
   };
 };
-
-export const UserAnswerContext = createContext<UserAnswerContextType>({
-  userAnswer: "",
-  setUserAnswer: () => {},
-});
 
 interface LessonPageProps {
   params: {
@@ -163,7 +147,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
 
   return (
     <div className="container min-h-fit h-screen flex flex-col">
-      <UserAnswerContext.Provider value={{ userAnswer, setUserAnswer }}>
+      <UserAnswerProvider userAnswer={userAnswer} setUserAnswer={setUserAnswer}>
         {!lessonComplete ? (
           <>
             <ProgressTopBar
@@ -202,7 +186,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
             wrongAnswers={wrongCount}
           />
         )}
-      </UserAnswerContext.Provider>
+      </UserAnswerProvider>
     </div>
   );
 };

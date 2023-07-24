@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useContext } from "react";
-import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page";
+import { UserAnswerContext } from "./UserAnswerProvider";
 import shuffle from "../../utils/shuffle";
 import useTTS from "@/hooks/useTTS";
 
