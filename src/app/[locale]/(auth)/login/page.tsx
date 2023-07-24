@@ -53,13 +53,16 @@ const LogIn = () => {
       setServerError(signInResult.error);
     }
 
-    try {
-      t("loggedIn");
-    } catch (err) {
-      notFound();
-    }
     toast.success(t("loggedIn"));
   });
+
+  try {
+    const loggedIn = t("loggedIn");
+    console.log(loggedIn);
+  } catch (err) {
+    console.log(err);
+    notFound();
+  }
 
   return (
     <div className="py-10">

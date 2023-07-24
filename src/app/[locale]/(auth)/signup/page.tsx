@@ -39,12 +39,6 @@ const SignUp = () => {
     setIsLoading(false);
     const resData = await res.json();
 
-    try {
-      t("signedUp");
-    } catch (err) {
-      notFound();
-    }
-
     if (!res.ok) {
       setServerError(resData.message);
     }
@@ -52,6 +46,14 @@ const SignUp = () => {
       toast.success(t("signedUp"));
     }
   });
+
+  try {
+    const signedUp = t("signedUp");
+    console.log(signedUp);
+  } catch (err) {
+    console.log(err);
+    notFound();
+  }
 
   return (
     <div className="py-5">
