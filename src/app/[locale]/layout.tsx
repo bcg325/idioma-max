@@ -6,7 +6,7 @@ const openSans = Open_Sans({ subsets: ["latin"], display: "swap" });
 import ToasterContext from "@/components/ui/ToasterContext";
 import CourseSelection from "@/components/course/CourseSelection";
 import { Course } from "@/types";
-import { NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider, IntlErrorCode, IntlError } from "next-intl";
 import { notFound } from "next/navigation";
 
 export function generateStaticParams() {
@@ -38,6 +38,14 @@ const getMessages = async (locale: string) => {
   }
 };
 
+function onError(error: IntlError) {
+  if (error.code === IntlErrorCode.MISSING_MESSAGE) {
+    // Missing translations are expected and should only log an error
+    console.error(error);
+  } else {
+  }
+}
+
 export default async function RootLayout({
   children,
   params: { locale },
@@ -51,7 +59,11 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={openSans.className}>
-        <NextIntlClientProvider locale={locale} messages={JSON.parse(messages)}>
+        <NextIntlClientProvider
+          locale={locale}
+          messages={JSON.parse(messages)}
+          onError={onError}
+        >
           <ToasterContext />
           <Providers>
             <CourseSelection courses={courses}>
