@@ -1,7 +1,5 @@
 "use client";
 import { useState } from "react";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next-intl/client";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
