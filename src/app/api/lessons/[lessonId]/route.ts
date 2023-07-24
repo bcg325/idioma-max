@@ -31,7 +31,6 @@ export async function GET(
           options: true,
           optionsLang: true,
           imageUrl: true,
-          readingPageId: true,
           exerciseType: {
             select: {
               name: true,
