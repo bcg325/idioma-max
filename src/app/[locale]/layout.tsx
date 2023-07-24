@@ -22,7 +22,10 @@ export const metadata = {
 };
 
 const getCourses = async () => {
-  const res = await fetch(`${process.env.BASE_URL}/api/courses/`);
+  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https";
+  const res = await fetch(
+    `${protocol}://${process.env.VERCEL_URL}/api/courses/`
+  );
   const data = await res.json();
   return data;
 };
