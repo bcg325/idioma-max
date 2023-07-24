@@ -44,7 +44,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale}>
-      <body className={openSans.className + " bg-grayLight"}>
+      <body className={openSans.className}>
         <ToasterContext />
         <Providers>
           <NextIntlClientProvider locale={locale} messages={messages}>

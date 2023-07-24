@@ -6,7 +6,7 @@
     "login": "Log In"
   },
   "Lesson": {
-    "check": "Comprobar",
+    "check": "Check",
     "exercises": {
       "translate": "Translate the phrase",
       "fillBlank": "Complete the phrase",
@@ -33,7 +33,7 @@
       "discover": "Discover"
     },
     "sets": {
-      "cards": "cards",
+      "cards": "card",
       "review": "Review",
       "rename": "Rename",
       "edit": "Edit",
@@ -48,7 +48,14 @@
       }
     }
   },
-  "Profile": {},
+  "Profile": {
+    "courseProgress": "Course Progress",
+    "lessons": "Lessons",
+    "completed": "completed",
+    "total": "total",
+    "lastCompleted": "Last Completed Lesson",
+    "logOut": "Log Out"
+  },
   "Auth": {
     "login": "Log In",
     "loggedIn": "Logged In",

@@ -49,7 +49,5 @@ export async function GET(
     lastCompletedDate: lastLessonCompleted[0]?.createdAt || null,
   };
 
-  console.log(progress);
-
   return NextResponse.json(progress);
 }

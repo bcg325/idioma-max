@@ -2,29 +2,35 @@ import { UserAnswerContext } from "@/app/[locale]/course/lesson/[lessonId]/page"
 import { useState, useContext, useEffect } from "react";
 import useTTS from "@/hooks/useTTS";
 import BuildWord from "./BuildWord";
-
-interface BuildProps {
-  options: string[];
-  lang: string;
-}
+import shuffle from "../../utils/shuffle";
 
 type wordObjType = {
   word: string;
   chosen: boolean;
   id: number;
 };
+interface BuildProps {
+  options: string[];
+  lang: string;
+}
 
 const Build: React.FC<BuildProps> = ({ options, lang }) => {
   const playSound = useTTS();
   const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
   const [selectedWords, setSelectedWords] = useState<wordObjType[]>([]);
-  const [wordList, setWordList] = useState<wordObjType[]>(
-    options.map((option, index) => ({
-      word: option,
-      chosen: false,
-      id: index,
-    }))
-  );
+  const [wordList, setWordList] = useState<wordObjType[]>([]);
+
+  useEffect(() => {
+    shuffle(options);
+    setSelectedWords([]);
+    setWordList(
+      options.map((option, index) => ({
+        word: option,
+        chosen: false,
+        id: index,
+      }))
+    );
+  }, [options]);
 
   const handleWordClick = (clickedWord: string, wordId: number) => {
     if (selectedWords.find((wordObj) => wordObj.id === wordId)) {

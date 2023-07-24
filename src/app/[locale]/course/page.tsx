@@ -14,7 +14,7 @@ const CoursePage = () => {
   const courseProgress = useQuery({
     queryKey: ["courseProgress", session?.user.id, course!.id],
     queryFn: () => getUserProgress(course!.id),
-    enabled: status === "authenticated" && !!session.user && !!course,
+    enabled: !!session?.user,
     refetchOnMount: false,
   });
 
@@ -25,6 +25,7 @@ const CoursePage = () => {
     const localCourseProgress = localStorage.getItem("courseProgress");
     if (localCourseProgress) {
       const localCourseProgressData = JSON.parse(localCourseProgress);
+      console.log(localCourseProgressData);
       mapUserProgress(course, localCourseProgressData[course.id] || {});
     } else {
       mapUserProgress(course, {});

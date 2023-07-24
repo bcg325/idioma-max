@@ -19,7 +19,7 @@ const Button = ({
   onClick,
 }: Props) => {
   const styles = `
-  active:scale-98
+  active:scale-99
   transition-all
   duration-120
   ease-in-out

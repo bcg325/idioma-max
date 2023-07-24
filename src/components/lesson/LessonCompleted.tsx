@@ -18,7 +18,7 @@ const LessonCompleted: React.FC<LessonCompleteProps> = ({
 
   return (
     <div className="pt-5 container min-h-fit h-screen items-center flex flex-col gap-2">
-      <h1 className="text-3xl font-bold text-Dark">{t("title")}</h1>
+      <h1 className="text-3xl font-bold text-Dark text-center">{t("title")}</h1>
       <div className="flex flex-col justify-center items-center h-full ">
         <div className="flex flex-col gap-3 mb-3">
           <span className="flex gap-3 items-center text-xl font-medium text-green-900">

@@ -33,7 +33,7 @@
       "discover": "Descubrir"
     },
     "sets": {
-      "cards": "tarjetas",
+      "cards": "tarjeta",
       "review": "Revisar",
       "rename": "Renombrar",
       "edit": "Editar",
@@ -48,7 +48,14 @@
       }
     }
   },
-  "Profile": {},
+  "Profile": {
+    "courseProgress": "Progreso del Curso",
+    "lessons": "Lecciones",
+    "completed": "completada",
+    "total": "en total",
+    "lastCompleted": "Última Leccion Completada",
+    "logOut": "Cerrar sesión"
+  },
   "Auth": {
     "login": "Iniciar sesión",
     "loggedIn": "Sesión iniciada",

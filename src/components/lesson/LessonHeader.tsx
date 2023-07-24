@@ -21,15 +21,18 @@ const LessonHeader: React.FC<LessonHeaderProps> = ({
   const playSound = useTTS();
 
   return (
-    <div className=" w-full flex flex-col items-center mt-2 mb-4">
+    <div className=" w-full flex flex-col items-center mb-4">
       <h1 className="text-2xl font-semibold text-center">{title}</h1>
-      <div className="relative flex justify-center">
+      <div className="relative flex justify-center h-150">
         <Image
+          key={imageUrl}
           src={imageUrl || "/placeholder.jpg"}
           alt="language"
-          width={200}
-          height={200}
-          className="rounded-xl shadow-md my-4"
+          width={190}
+          height={150}
+          className="rounded-xl shadow-md my-4 transition-opacity opacity-0 duration-50"
+          priority={true}
+          onLoadingComplete={(image) => image.classList.add("opacity-100")}
         />
       </div>
 

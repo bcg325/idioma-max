@@ -40,14 +40,14 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
     <section>
       <div className="flex flex-col gap-2 xs:flex-row justify-between">
         <Link className="w-fit" href={`/cards/my-sets`}>
-          <h1 className="text-2xl font-bold flex items-center ">
+          <h2 className="text-2xl font-bold flex items-center ">
             <span>{t("mySets")}</span>
             <span className="ml-2 text-base font-normal">{count}</span>
             <IoMdArrowDropright
               size={20}
               className="relative top-[1.5px] text-primary400"
             />
-          </h1>
+          </h2>
         </Link>
 
         <Button
@@ -63,7 +63,7 @@ const MySetsSection: React.FC<MySetsSectionProps> = ({ count, cardSets }) => {
         </Button>
       </div>
       {cardSets.length > 0 ? (
-        <div className="grid grid-cols-1 gap-3 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-2 lg:grid-cols-3">
           {cardSets.map((cardSet) => (
             <CardSet
               key={cardSet.id}

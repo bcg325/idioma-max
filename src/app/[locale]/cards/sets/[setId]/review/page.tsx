@@ -11,6 +11,7 @@ import shuffle from "@/utils/shuffle";
 import { getCardSet } from "@/app/store/cards";
 import { Card } from "@/types";
 import { useRouter } from "next-intl/client";
+import Loading from "@/components/ui/Loading";
 
 interface SetReviewPage {
   params: {
@@ -63,7 +64,7 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
   }, [handleKeyDown]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error || !cardSet) {
@@ -107,54 +108,52 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
   };
 
   return (
-    <div className="container min-h-fit h-full lg:max-w-4xl">
+    <div className="container flex flex-col justify-between min-h-fit h-screen lg:max-w-4xl">
       <ProgressTopBar
         closeLink={`/cards/sets/${setId}`}
         current={currentCardIndex + 1}
         total={reviewCards.length}
       />
-      <div className="flex flex-col justify-center h-full">
-        <div className="my-5 w-full flex items-center">
-          <ReviewCard
-            front={reviewCards[currentCardIndex].frontText}
-            back={reviewCards[currentCardIndex].backText}
-            isFlipped={isFlipped}
-            handleFlip={handleFlip}
-          />
-        </div>
+      <div className="relative my-5 w-full flex flex-col items-center justify-center gap-5">
+        <ReviewCard
+          front={reviewCards[currentCardIndex].frontText}
+          back={reviewCards[currentCardIndex].backText}
+          isFlipped={isFlipped}
+          handleFlip={handleFlip}
+        />
         <div>
           <Button
             onClick={shuffleCards}
             rounding="rounded-full"
-            className=" bg-transparent shadow-none border-2 p-1 hover:bg-grayLight active:bg-gray/50"
+            className="absolute left-0 bg-transparent shadow-none border-2 p-1 hover:bg-grayLight active:bg-gray/50"
           >
             <PiShuffleBold size={24} />
           </Button>
         </div>
-        <div className=" w-full flex justify-center items-center">
-          <div className="flex justify-between gap-20">
-            <Button
-              disabled={currentCardIndex === 0}
-              onClick={handlePreviousCard}
-              rounding="rounded-lg rounded-l-3xl"
+      </div>
+      <div className="w-full flex justify-center items-center mb-6">
+        <div className="flex justify-between gap-20">
+          <Button
+            disabled={currentCardIndex === 0}
+            onClick={handlePreviousCard}
+            rounding="rounded-lg rounded-l-3xl"
+            color="bg-primary400"
+            className="text-white"
+          >
+            <BsArrowLeftShort size={40} />
+          </Button>
+          <Button
+            onClick={handleNextCard}
+            rounding="rounded-lg rounded-r-3xl"
+            color="bg-primary400"
+            className="text-white"
+          >
+            <BsArrowRightShort
+              size={40}
               color="bg-primary400"
               className="text-white"
-            >
-              <BsArrowLeftShort size={40} />
-            </Button>
-            <Button
-              onClick={handleNextCard}
-              rounding="rounded-lg rounded-r-3xl"
-              color="bg-primary400"
-              className="text-white"
-            >
-              <BsArrowRightShort
-                size={40}
-                color="bg-primary400"
-                className="text-white"
-              />
-            </Button>
-          </div>
+            />
+          </Button>
         </div>
       </div>
     </div>

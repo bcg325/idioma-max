@@ -13,7 +13,7 @@ const BlankSentence: React.FC<BlankSentenceProps> = ({
   fillWordId,
   onClick,
 }) => {
-  const splitSentence = sentence.trim().split(" ");
+  const splitSentence = sentence.trim().split(/(\s+)/);
 
   return (
     <div className="flex justify-center text-2xl w-full mb-16">
@@ -21,10 +21,11 @@ const BlankSentence: React.FC<BlankSentenceProps> = ({
         word === "~" ? (
           <span
             key={index}
-            className="flex justify-center align-center bg-gray/50 rounded-xl mx-2 w-16 min-w-fit pb-3 border-2 border-gray/50 h-10 text-2xl "
+            className="flex justify-center bg-gray/50 rounded-xl mx-2 w-16 min-w-fit border-2 border-gray/50 h-10  text-2xl "
           >
             {fillWord && (
               <BuildWord
+                className="w-full"
                 id={fillWordId}
                 disabled={false}
                 word={fillWord}
@@ -33,7 +34,9 @@ const BlankSentence: React.FC<BlankSentenceProps> = ({
             )}
           </span>
         ) : (
-          <span key={index}>{word}</span>
+          <span key={index} className="whitespace-pre">
+            {word}
+          </span>
         )
       )}
     </div>

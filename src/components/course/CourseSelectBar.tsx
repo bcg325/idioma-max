@@ -4,7 +4,7 @@ import { Course } from "@/types";
 interface CourseSelectBarProps {
   courses: Course[];
   currentCourse: Course;
-  selectCourse: (courseId: string, change: boolean) => void;
+  selectCourse: (courseId: string) => void;
 }
 
 const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
@@ -13,7 +13,7 @@ const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
   selectCourse,
 }) => {
   const handleCourseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    selectCourse(e.target.value, true);
+    selectCourse(e.target.value);
   };
 
   return (

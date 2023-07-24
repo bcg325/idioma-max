@@ -17,14 +17,14 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
       onClick={handleFlip}
       className={`
       cursor-pointer
-      border-2 
+      border-2
       p-3 
-      rounded-xl 
+      rounded-2xl 
       flex 
       items-center 
       justify-center 
-      border-grayDark/60
-      h-96
+      border-grayDark/80
+      h-[23rem]
       max-h-full
       w-full
       shadow-xl
