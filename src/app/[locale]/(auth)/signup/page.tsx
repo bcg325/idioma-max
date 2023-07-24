@@ -30,6 +30,8 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<FormData>();
 
+  console.log("Auth", t);
+
   const onSubmit = handleSubmit(async (data) => {
     setServerError("");
     setIsLoading(true);
