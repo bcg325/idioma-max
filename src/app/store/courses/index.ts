@@ -1,5 +1,6 @@
 import axios from "axios";
 import { Lesson } from "@/types";
+import { useQuery } from "@tanstack/react-query";
 
 export const getLessonById = async (lessonId: string) => {
   const res = await axios.get(`/api/lessons/${lessonId}`);

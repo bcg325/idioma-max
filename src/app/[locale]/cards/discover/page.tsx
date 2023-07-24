@@ -3,6 +3,7 @@
 import DiscoverSetsSection from "@/components/cards/DiscoverSetsSection";
 import { useQuery } from "@tanstack/react-query";
 import { getDiscoverSets } from "@/app/store/cards";
+import Loading from "@/components/ui/Loading";
 
 import { useCourse } from "@/hooks/useCourse";
 const DiscoverPage = () => {
@@ -13,7 +14,7 @@ const DiscoverPage = () => {
   });
 
   if (discoverSets.isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!discoverSets.data) {

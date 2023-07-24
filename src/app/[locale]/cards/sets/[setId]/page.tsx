@@ -22,6 +22,7 @@ import Card from "@/components/cards/Card";
 import OptionsDropdown, { options } from "@/components/ui/OptionsDropdown";
 import EditCardModal from "@/components/cards/EditCardModal";
 import { useTranslations } from "next-intl";
+import Loading from "@/components/ui/Loading";
 
 interface LessonPageProps {
   params: {
@@ -104,6 +105,9 @@ const SetPage: React.FC<LessonPageProps> = ({ params }) => {
     }
   }, [options, router]);
 
+  if (isLoading) {
+    return <Loading />;
+  }
   if (!cardSet) {
     return;
   }
@@ -157,65 +161,70 @@ const SetPage: React.FC<LessonPageProps> = ({ params }) => {
   const canSave = session?.user.id && !canEdit;
 
   return (
-    <div className="container h-full pt-7 lg:max-w-4xl">
+    <div className="container h-full pt-5 lg:max-w-4xl">
       <EditCardModal
         isOpen={showNewCardModal}
         handleClose={() => setShowNewCardModal(false)}
         setId={setId}
       />
 
-      <div className="flex flex-col items-center gap-3">
+      <div className="flex flex-col items-center text-center gap-4 sm:flex-row sm:items-stretch sm:text-start">
         <Image
           src={cardSet.imageUrl || "/placeholder.jpg"}
           width={150}
           height={150}
           alt="cardSet photo"
-          className="rounded-xl"
+          className="rounded-2xl shadow-lg"
+          priority={true}
         />
-        <div className="text-center">
+        <div className="flex flex-col flex-grow w-full">
           <div className="mb-1">
             {options.Rename.active ? (
               <input
                 autoFocus={true}
                 type="text"
                 value={rename}
-                className="input input-sm input-ghost text-center text-2xl font-bold"
+                className="input input-sm py-4 input-ghost text-3xl font-bold my-2"
                 onChange={(e) => setRename(e.target.value)}
                 onKeyDown={handleRenameEnter}
                 onBlur={handleRename}
               ></input>
             ) : (
-              <h1 className="text-2xl font-bold">{cardSet.name}</h1>
+              <h2 className="text-3xl font-bold">{cardSet.name}</h2>
             )}
+            <span className="flex items-center justify-center gap-2 sm:justify-start">
+              <TbCards size={20} />
+              {cardSet._count.cards} {t("cards")}
+              {cardSet._count.cards > 1 ? "s" : ""}
+            </span>
           </div>
-          <span className="flex items-center justify-center gap-2">
-            <TbCards size={20} />
-            {cardSet._count.cards} {t("cards")}
-          </span>
-        </div>
-      </div>
-      <div className="flex gap-2 my-2">
-        <div className="flex items-center justify-center gap-2">
-          {cardSet.cards.length > 0 && (
-            <Link href={`/cards/sets/${cardSet.id}/review`}>
-              <Button className=" bg-secondary400 rounded-2xl flex items-center gap-2 text-white px-4">
-                <BsFillPlayFill size={20} className="relative left-[1px]" />
-                <span>{t("review")}</span>
-              </Button>
-            </Link>
-          )}
-          {canEdit && (
-            <OptionsDropdown options={options} onSelect={handleSelectOption} />
-          )}
-          {canSave && (
-            <button onClick={handleToggleSave} className="btn btn-circle">
-              {cardSet.saved ? (
-                <FaBookmark className="text-primary400" size={26} />
-              ) : (
-                <FaRegBookmark className="text-primary400" size={26} />
+          <div className="flex gap-2 mt-4 sm:mt-auto">
+            <div className="flex items-center justify-center gap-2">
+              {cardSet.cards.length > 0 && (
+                <Link href={`/cards/sets/${cardSet.id}/review`}>
+                  <Button className=" bg-secondary400 rounded-2xl flex items-center gap-2 text-white px-4">
+                    <BsFillPlayFill size={20} className="relative left-[1px]" />
+                    <span>{t("review")}</span>
+                  </Button>
+                </Link>
               )}
-            </button>
-          )}
+              {canEdit && (
+                <OptionsDropdown
+                  options={options}
+                  onSelect={handleSelectOption}
+                />
+              )}
+              {canSave && (
+                <button onClick={handleToggleSave} className="btn btn-circle">
+                  {cardSet.saved ? (
+                    <FaBookmark className="text-primary400" size={26} />
+                  ) : (
+                    <FaRegBookmark className="text-primary400" size={26} />
+                  )}
+                </button>
+              )}
+            </div>
+          </div>
         </div>
       </div>
       {canEdit && (
@@ -223,8 +232,8 @@ const SetPage: React.FC<LessonPageProps> = ({ params }) => {
           <Button
             onClick={() => setShowNewCardModal(true)}
             color="white border-2 border-primary500"
-            rounding="rounded-3xl"
-            className="bg-white text-primary500 w-full text-md rounded-3xl py-1 "
+            rounding="rounded-xl"
+            className="bg-white text-primary500 w-full text-md rounded-3xl mt-4 shadow-md "
           >
             <div className="flex items-center justify-center space-x-2 ">
               <FiPlus size={22} />

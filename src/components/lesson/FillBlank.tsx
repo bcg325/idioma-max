@@ -25,22 +25,23 @@ const FillBlank: React.FC<FillBlankProps> = ({
   lang,
 }) => {
   const [selectedWord, setSelectedWord] = useState<wordObjType | null>(null);
-  const [wordList, setWordList] = useState<wordObjType[]>();
-  const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
-  const playSound = useTTS();
+  const [wordList, setWordList] = useState<wordObjType[]>([]);
 
   useEffect(() => {
+    setSelectedWord(null);
     const optionsCopy = [...options, answer];
     shuffle(optionsCopy);
-
-    const arrOptionsCopy: wordObjType[] = optionsCopy.map((option, index) => ({
-      word: option,
-      chosen: false,
-      id: index,
-    }));
-
-    setWordList(arrOptionsCopy);
+    setWordList(
+      optionsCopy.map((option, index) => ({
+        word: option,
+        chosen: false,
+        id: index,
+      }))
+    );
   }, [options, answer]);
+
+  const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
+  const playSound = useTTS();
 
   const handleWordClick = (clickedWord: string, wordId: number) => {
     if (selectedWord && selectedWord.id !== wordId) {

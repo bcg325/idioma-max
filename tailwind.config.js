@@ -43,7 +43,6 @@ module.exports = {
         gray: "#B0B5C2",
         grayLight: "#F7F8FA",
         grayDark: "#606267",
-        violet: "#931A9E",
         primary100: "#B2E1EE",
         primary200: "#61A7C6",
         primary300: "#2D7DA8",
@@ -58,13 +57,6 @@ module.exports = {
         secondary500: "#BA381A",
         secondary600: "#9E280D",
         secondary700: "#600F02",
-        accent100: "#F9D19B",
-        accent200: "#F4BF73",
-        accent300: "#E5AA53",
-        accent400: "#D69631",
-        accent500: "#B7771A",
-        accent600: "#9B6312",
-        accent700: "#663D07",
         unitColor1: "#0f766e",
         unitColor2: "#312e81",
         unitColor3: "#7f1d1d",
@@ -74,7 +66,7 @@ module.exports = {
         height: "height",
       },
       scale: {
-        98: "0.98",
+        99: "0.99",
       },
       keyframes: {
         shake: {

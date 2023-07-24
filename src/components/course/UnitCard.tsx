@@ -37,7 +37,7 @@ UnitCardProps) => {
   };
   return (
     <div
-      className={`mx-auto rounded-lg shadow mt-8 overflow-y-hidden shadow-lg ${bgColor[order]}`}
+      className={`mx-auto rounded-lg mt-8 overflow-y-hidden border-2 border-gray shadow-lg ${bgColor[order]}`}
     >
       <button
         onClick={() => setShowLessons(!showLessons)}
@@ -73,7 +73,7 @@ UnitCardProps) => {
             url={`/course/lesson/${lesson.id}`}
             title={lesson.name}
             description={lesson.description}
-            status={lesson.status || "locked"}
+            status={lesson.status || "loading"}
             order={index + 1}
           />
         ))}

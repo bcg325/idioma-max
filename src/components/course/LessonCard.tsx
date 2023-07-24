@@ -47,23 +47,31 @@ const LessonCard: React.FC<LessonCardProps> = ({
   url,
   order,
 }) => {
-  const icon =
-    status === "completed" ? (
-      <BsCheckLg size={30} className="text-Dark" />
-    ) : status === "current" ? (
-      <Button rounding="rounded-2xl" className="text-white">
-        <BsFillPlayFill size={20} className="relative left-[1px]" />
-      </Button>
-    ) : (
-      <BiLockAlt size={26} className="text-grayDark" />
-    );
+  let icon;
+  switch (status) {
+    case "completed":
+      icon = <BsCheckLg size={30} className="text-Dark" />;
+      break;
+    case "current":
+      icon = (
+        <Button rounding="rounded-2xl" className="text-white">
+          <BsFillPlayFill size={20} className="relative left-[1px]" />
+        </Button>
+      );
+      break;
+    case "locked":
+      icon = <BiLockAlt size={26} className="text-grayDark" />;
+      break;
+    default:
+      icon = <span className="loading loading-spinner loading-sm"></span>;
+  }
 
   return (
     <LinkWrapper
       className={`cursor-pointer flex justify-between bg-white border-t-2 border-gray p-3 px-4 ${
-        status === "locked" ? "bg-gray/10" : ""
+        status === "locked" || status === "loading" ? "bg-gray/10" : ""
       }`}
-      href={status === "locked" ? "#" : url}
+      href={status === "locked" || status === "loading" ? "#" : url}
     >
       <div>
         <h3 className="text-lg font-semibold block">
@@ -71,7 +79,7 @@ const LessonCard: React.FC<LessonCardProps> = ({
         </h3>
         <p className="line-clamp-2">{description}</p>
       </div>
-      <div className="flex items-center justify-center pr-2">{icon}</div>
+      <div className="flex items-center justify-center px-2">{icon}</div>
     </LinkWrapper>
   );
 };

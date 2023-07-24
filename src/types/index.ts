@@ -1,12 +1,11 @@
 export type Exercise = {
   id: string;
   term: string;
-  termLang?: string;
+  termLang: string;
   answer: string;
   options: string[];
-  optionsLang?: string;
+  optionsLang: string;
   imageUrl?: string;
-  readingPageId?: string;
   exerciseType: {
     name: string;
   };

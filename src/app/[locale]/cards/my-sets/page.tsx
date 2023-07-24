@@ -5,6 +5,7 @@ import { getUserSets } from "@/app/store/cards";
 import { useSession } from "next-auth/react";
 import { useCourse } from "@/hooks/useCourse";
 import Auth from "@/components/auth/Auth";
+import Loading from "@/components/ui/Loading";
 const MySetsPage = () => {
   const { data: session, status } = useSession();
   const { courses, course } = useCourse();
@@ -15,7 +16,7 @@ const MySetsPage = () => {
   });
 
   if (userSets.isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (!userSets.data) {

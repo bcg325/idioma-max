@@ -1,6 +1,7 @@
 interface BuildWordProps {
   word: string;
   disabled: boolean;
+  className?: string;
   id: number;
   onClick: (clickedWord: string, wordId: number) => void;
 }
@@ -8,6 +9,7 @@ interface BuildWordProps {
 const BuildWord: React.FC<BuildWordProps> = ({
   word,
   disabled,
+  className,
   id,
   onClick,
 }) => {
@@ -22,6 +24,7 @@ const BuildWord: React.FC<BuildWordProps> = ({
       rounded-xl
       h-fit
       text-lg
+      ${className}
       ${
         disabled
           ? "bg-gray/50 border-gray/50 "

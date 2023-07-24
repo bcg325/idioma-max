@@ -15,7 +15,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
   answer,
   lang,
 }) => {
-  const [choices, setChoices] = useState<string[]>([...options]);
+  const [choices, setChoices] = useState<string[]>([]);
   const { userAnswer, setUserAnswer } = useContext(UserAnswerContext);
   const playSound = useTTS();
 
@@ -29,6 +29,7 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
     playSound(choice, lang);
     setUserAnswer(choice);
   };
+
   return (
     <div className="flex flex-col gap-1.5 w-full">
       {choices.map((choice, index) => (
@@ -36,18 +37,17 @@ const MultipleChoice: React.FC<MultipleChoiceProps> = ({
           key={index}
           onClick={() => handleChoiceClick(choice)}
           className={`
-          ${
-            userAnswer === choice
-              ? "bg-primary100/80 border-primary400 "
-              : "bg-white border-gray hover:bg-grayLight"
-          }
-          border-2 
+           border-2 
           font-medium
-          
           px-2 
           py-2.5
           rounded-xl
-          shadow-md"
+          shadow-md
+          ${
+            userAnswer === choice
+              ? "bg-primary100/80 border-primary400 shadow-none "
+              : "bg-white border-gray hover:bg-grayLight"
+          }
           `}
         >
           {choice}

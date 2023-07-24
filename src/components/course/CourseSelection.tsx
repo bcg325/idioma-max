@@ -8,7 +8,7 @@ import Image from "next/image";
 interface CourseContextType {
   courses: Course[];
   course: Course | null;
-  selectCourse: (courseId: string, change: boolean) => void;
+  selectCourse: (courseId: string) => void;
 }
 
 export const CourseContext = createContext<CourseContextType>({
@@ -32,7 +32,7 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
   const [checkedCourse, setCheckedCourse] = useState(false);
 
   const selectCourse = useCallback(
-    (courseId: string, change: boolean) => {
+    (courseId: string) => {
       const newCourse = courses.find(
         (course) => course.id === courseId
       ) as Course;
@@ -42,18 +42,16 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
         localStorage.setItem("currentCourseId", JSON.stringify(courseId));
       }
 
-      if (change) {
-        router.push("/", { locale: newCourse.fromLanguage.locale });
-      }
+      router.replace(pathname, { locale: newCourse.fromLanguage.locale });
     },
-    [courses, router]
+    [courses, router, pathname]
   );
 
   useEffect(() => {
     if (!course && typeof window != "undefined") {
       const localCurrentCourseId = localStorage.getItem("currentCourseId");
       if (localCurrentCourseId) {
-        selectCourse(JSON.parse(localCurrentCourseId), false);
+        selectCourse(JSON.parse(localCurrentCourseId));
       }
     }
     setCheckedCourse(true);
@@ -82,7 +80,7 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
             {courses.map((course) => (
               <button
                 key={course.id}
-                onClick={() => selectCourse(course.id, true)}
+                onClick={() => selectCourse(course.id)}
                 className="bg-white text-center border-2 border-gray/50 shadow-lg rounded-xl p-4 hover:bg-primary100/10"
               >
                 <h1 className="text-xl font-semibold">{course.name}</h1>

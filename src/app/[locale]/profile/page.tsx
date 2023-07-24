@@ -5,8 +5,11 @@ import Auth from "@/components/auth/Auth";
 import { useQuery } from "@tanstack/react-query";
 import { useCourse } from "@/hooks/useCourse";
 import { getUserProgressPercent } from "@/app/store/courses";
+import Loading from "@/components/ui/Loading";
+import { useTranslations } from "next-intl";
 
 const ProfilePage = () => {
+  const t = useTranslations("Profile");
   const { data: session, status } = useSession();
   const user = session?.user;
   const { courses, course } = useCourse();
@@ -18,9 +21,8 @@ const ProfilePage = () => {
     refetchOnMount: false,
   });
 
-  console.log(userProgress.data);
   if (userProgress.isLoading) {
-    return;
+    return <Loading />;
   }
 
   if (!userProgress.data) {
@@ -33,13 +35,13 @@ const ProfilePage = () => {
           <h1 className="text-2xl font-bold">{user?.name}</h1>
           <p>{user?.email}</p>
           <div className="my-6 border-2 border-gray rounded-lg p-5 shadow-md">
-            <span className="text-sm font-normal">Course Progress</span>
+            <span className="text-sm font-normal">{t("courseProgress")}</span>
             <h3 className="text-xl font-semibold">{course?.name}</h3>
             <div className="my-3">
-              <h4 className="text-lg font-medium">Lessons</h4>
+              <h4 className="text-lg font-medium">{t("lessons")}</h4>
               <p>
-                {userProgress.data.completed} completed /{" "}
-                {userProgress.data.total} total
+                {userProgress.data.completed} {t("completed")} /{" "}
+                {userProgress.data.total} {t("total")}
               </p>
               <div className="my-3 bg-gray/60 rounded-full h-2">
                 <div
@@ -50,16 +52,18 @@ const ProfilePage = () => {
             </div>
             {userProgress.data.lastCompletedDate && (
               <div className="mt-3">
-                <h4 className="text-lg font-medium">Last Completed</h4>
+                <h4 className="text-lg font-medium">{t("lastCompleted")}</h4>
                 <p>
-                  {new Date(userProgress.data.lastCompletedDate).toDateString()}
+                  {new Date(
+                    userProgress.data.lastCompletedDate
+                  ).toLocaleDateString()}
                 </p>
               </div>
             )}
           </div>
 
           <Button className="text-white w-44 mt-1" onClick={() => signOut()}>
-            Log out
+            {t("logOut")}
           </Button>
         </div>
       </div>

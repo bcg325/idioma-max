@@ -1,10 +1,50 @@
 import { PrismaClient } from "@prisma/client";
 
+import es_en_course from "./es_en_course.json";
+import es_en_sets from "./es_en_sets.json";
+import en_es_course from "./en_es_course.json";
+import en_es_sets from "./en_es_sets.json";
+
 const prisma = new PrismaClient();
 
+type Exercise = {
+  term: string;
+  termLang: string;
+  answer: string;
+  options: string[];
+  optionsLang: string;
+  imageUrl?: string;
+  exerciseType: string;
+};
+type Lesson = {
+  name: string;
+  description: string;
+  exercises: Exercise[];
+};
+type Unit = {
+  name: string;
+  description: string;
+  lessons: Lesson[];
+};
+type Course = {
+  units: Unit[];
+};
+
+type Card = {
+  frontText: string;
+  backText: string;
+};
+
+type CardSet = {
+  name: string;
+  imageUrl?: string;
+  cards: Card[];
+};
+
 async function main() {
-  await prisma.course.deleteMany();
+  //erase all
   await prisma.language.deleteMany();
+  await prisma.course.deleteMany();
   await prisma.exerciseType.deleteMany();
 
   //create languages English and Spanish
@@ -13,260 +53,6 @@ async function main() {
   });
   const spanish = await prisma.language.create({
     data: { name: "Spanish", locale: "es" },
-  });
-
-  if (!(spanish && english)) return;
-  //create ES_EN and EN_ES courses
-  const englishCourse = await prisma.course.create({
-    data: {
-      name: "Ingles (ES)",
-      fromLanguageId: spanish.id,
-      learningLanguageId: english.id,
-      description: "ES_EN",
-      units: {
-        createMany: {
-          data: [
-            {
-              name: "Introduction",
-              position: 0,
-              description: "Introduction unit to English course",
-            },
-            {
-              name: "Foundations",
-              position: 1,
-              description: "Foundations unit to English course",
-            },
-            {
-              name: "Conversations",
-              position: 2,
-              description: "Conversations unit to English course",
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  const spanishCourse = await prisma.course.create({
-    data: {
-      name: "Spanish (EN)",
-      fromLanguageId: english.id,
-      learningLanguageId: spanish.id,
-      description: "EN_ES",
-      units: {
-        createMany: {
-          data: [
-            {
-              name: "Spanish unit 1",
-              position: 0,
-              description: "Introduction to Spanish course",
-            },
-            {
-              name: "Spanish unit 2",
-              position: 1,
-              description: "Foundations for Spanish course",
-            },
-            {
-              name: "Spanish unit 3",
-              position: 2,
-              description: "Conversations unit for Spanish course",
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: englishCourse.id,
-        position: 0,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "Lesson 1",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "Lesson 2",
-              description: "lesson 2 description",
-              position: 1,
-            },
-            {
-              name: "Lesson 3",
-              description: "lesson 3 description",
-              position: 2,
-            },
-            {
-              name: "Lesson 4",
-              description: "lesson 4 description",
-              position: 3,
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: englishCourse.id,
-        position: 1,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "First lesson",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "Second lesson",
-              description: "lesson 2 description",
-              position: 1,
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: englishCourse.id,
-        position: 2,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "1st lesson",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "2nd lesson",
-              description: "lesson 2 description",
-              position: 1,
-            },
-            {
-              name: "3rd lesson",
-              description: "lesson 3 description",
-              position: 2,
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: spanishCourse.id,
-        position: 0,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "Lesson 1",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "Lesson 2",
-              description: "lesson 2 description",
-              position: 1,
-            },
-            {
-              name: "Lesson 3",
-              description: "lesson 3 description",
-              position: 2,
-            },
-            {
-              name: "Lesson 4",
-              description: "lesson 4 description",
-              position: 3,
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: spanishCourse.id,
-        position: 1,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "First lesson",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "Second lesson",
-              description: "lesson 2 description",
-              position: 1,
-            },
-          ],
-        },
-      },
-    },
-  });
-
-  await prisma.unit.update({
-    where: {
-      courseId_position: {
-        courseId: spanishCourse.id,
-        position: 2,
-      },
-    },
-    data: {
-      lessons: {
-        createMany: {
-          data: [
-            {
-              name: "1st lesson",
-              description: "lesson 1 description",
-              position: 0,
-            },
-            {
-              name: "2nd lesson",
-              description: "lesson 2 description",
-              position: 1,
-            },
-            {
-              name: "3rd lesson",
-              description: "lesson 3 description",
-              position: 2,
-            },
-          ],
-        },
-      },
-    },
   });
 
   //create exercise types
@@ -286,183 +72,119 @@ async function main() {
     },
   });
 
-  if (!(vocabExercise && grammarExercise && grammarExercise)) return;
-  //get unit 1 id
-  const unit1 = await prisma.unit.findUnique({
-    where: {
-      courseId_position: {
-        courseId: englishCourse.id,
-        position: 0,
-      },
+  if (!(spanish && english)) return;
+  if (!(vocabExercise && fillBlankExercise && grammarExercise)) return;
+
+  //create ES_EN and EN_ES courses
+  const englishCourse = await prisma.course.create({
+    data: {
+      name: "Inglés (ES)",
+      fromLanguageId: spanish.id,
+      learningLanguageId: english.id,
+      description: "Mejore su fluidez en Inglés con nuestro curso interactivo.",
     },
   });
 
-  if (!unit1) return;
-
-  //add exercises to English course, unit 1, lesson 1
-  await prisma.lesson.update({
-    where: {
-      unitId_position: {
-        unitId: unit1?.id,
-        position: 0,
-      },
-    },
+  const spanishCourse = await prisma.course.create({
     data: {
-      exercises: {
-        createMany: {
-          data: [
-            {
-              position: 0,
-              term: "How are you?",
-              termLang: "EN",
-              answer: "Como estas?",
-              options: ["Estas como?", "Estas bien?", "Tu estas?"],
-              optionsLang: "ES",
-              exerciseTypeId: vocabExercise.id,
-            },
-            {
-              position: 1,
-              term: "My name is",
-              termLang: "EN",
-              answer: "mi nombre es",
-              options: ["mi", "nombre", "es", "otra", "dia", "hola", "nada"],
-              optionsLang: "ES",
-
-              exerciseTypeId: grammarExercise.id,
-            },
-            {
-              position: 2,
-              term: "Good morning",
-              termLang: "EN",
-              answer: "Buenos dias",
-              options: ["Buenas noches", "Buenas tardes", "Buena dia"],
-              optionsLang: "ES",
-              exerciseTypeId: vocabExercise.id,
-            },
-            {
-              position: 3,
-              term: "yo ~ español",
-              termLang: "ES",
-              answer: "hablo",
-              options: ["perdon", "bebo", "como"],
-              optionsLang: "ES",
-              exerciseTypeId: fillBlankExercise.id,
-            },
-            {
-              position: 4,
-              term: "goodbye",
-              termLang: "EN",
-              answer: "adiós",
-              options: ["hola", "por favor", "gracias"],
-              optionsLang: "ES",
-              exerciseTypeId: vocabExercise.id,
-            },
-          ],
-        },
-      },
+      name: "Spanish (EN)",
+      fromLanguageId: english.id,
+      learningLanguageId: spanish.id,
+      description: "Level up your Spanish fluency with our interactive course.",
     },
   });
 
-  //CREATING CARDS
-  const weekDaysCardSet = await prisma.cardSet.create({
-    data: {
-      name: "Days of the week",
-      courseId: englishCourse.id,
-      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
-      cards: {
-        createMany: {
-          data: [
-            {
-              frontText: "Lunes",
-              backText: "Monday",
-            },
-            {
-              frontText: "Martes",
-              backText: "Tuesday",
-            },
-            {
-              frontText: "Miercoles",
-              backText: "Wednesday",
-            },
-            {
-              frontText: "Jueves",
-              backText: "Thursday",
-            },
-            {
-              frontText: "Viernes",
-              backText: "Friday",
-            },
-            {
-              frontText: "Sabado",
-              backText: "Saturday",
-            },
-            {
-              frontText: "Domingo",
-              backText: "Sunday",
-            },
-          ],
+  const createCourse = async (course: Course, courseId: string) => {
+    for (let i = 0; i < course.units.length; i++) {
+      const currentUnit = course.units[i];
+      const createdUnit = await prisma.unit.create({
+        data: {
+          courseId,
+          position: i,
+          name: currentUnit.name,
+          description: currentUnit.description,
         },
-      },
-    },
-  });
-  const timesOfDay = await prisma.cardSet.create({
-    data: {
-      name: "Times of the day",
-      courseId: englishCourse.id,
-      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
-      cards: {
-        createMany: {
-          data: [
-            {
-              frontText: "Morning",
-              backText: "Mañana",
+      });
+
+      for (let j = 0; j < course.units[i].lessons.length; j++) {
+        const currentLesson = currentUnit.lessons[j];
+        const createdLesson = await prisma.lesson.create({
+          data: {
+            unitId: createdUnit.id,
+            position: j,
+            name: currentUnit.lessons[j].name,
+            description: currentUnit.lessons[j].description,
+          },
+        });
+
+        for (let k = 0; k < course.units[i].lessons[j].exercises.length; k++) {
+          const currentExercise = currentLesson.exercises[k];
+          let currentExerciseTypeId;
+
+          switch (currentExercise.exerciseType) {
+            case "vocab":
+              currentExerciseTypeId = vocabExercise.id;
+              break;
+            case "fillBlank":
+              currentExerciseTypeId = fillBlankExercise.id;
+              break;
+            case "grammar":
+              currentExerciseTypeId = grammarExercise.id;
+              break;
+            default:
+              currentExerciseTypeId = vocabExercise.id;
+          }
+
+          await prisma.exercise.create({
+            data: {
+              lessonId: createdLesson.id,
+              position: k,
+              term: currentExercise.term,
+              termLang: currentExercise.termLang,
+              answer: currentExercise.answer,
+              options: currentExercise.options,
+              optionsLang: currentExercise.optionsLang,
+              imageUrl: currentExercise.imageUrl,
+              exerciseTypeId: currentExerciseTypeId,
             },
-            {
-              frontText: "Afternoon",
-              backText: "Tarde",
-            },
-            {
-              frontText: "Night",
-              backText: "Noche",
-            },
-          ],
+          });
+        }
+      }
+    }
+  };
+
+  createCourse(es_en_course, englishCourse.id);
+  createCourse(en_es_course, spanishCourse.id);
+
+  const createCourseCardSets = async (
+    courseCardSets: CardSet[],
+    courseId: string
+  ) => {
+    for (let i = 0; i < courseCardSets.length; i++) {
+      const currentCardSet = courseCardSets[i];
+      const createdCardSet = await prisma.cardSet.create({
+        data: {
+          courseId,
+          creatorId: "cljq35vem0000vcccn8s8bx2t",
+          imageUrl: currentCardSet.imageUrl,
+          name: currentCardSet.name,
         },
-      },
-    },
-  });
-  const commonQuestions = await prisma.cardSet.create({
-    data: {
-      name: "Common questions",
-      courseId: englishCourse.id,
-      creatorId: "cljq35vem0000vcccn8s8bx2t", // bryan user id
-      cards: {
-        createMany: {
-          data: [
-            {
-              frontText: "What’s your name?",
-              backText: "¿Cómo te llamas?",
-            },
-            {
-              frontText: "What do you do for a living?",
-              backText: "¿A qué te dedicas?",
-            },
-            {
-              frontText: "How much is this?",
-              backText: "¿Cuánto cuesta?",
-            },
-            {
-              frontText: "What time is it?",
-              backText: "¿Qué hora es?",
-            },
-            {
-              frontText: "Can you help me?",
-              backText: "¿Me puede ayudar?",
-            },
-          ],
-        },
-      },
-    },
-  });
+      });
+      for (let j = 0; j < currentCardSet.cards.length; j++) {
+        const currentCard = currentCardSet.cards[j];
+        const createdCard = await prisma.card.create({
+          data: {
+            setId: createdCardSet.id,
+            frontText: currentCard.frontText,
+            backText: currentCard.backText,
+          },
+        });
+      }
+    }
+  };
+
+  createCourseCardSets(es_en_sets, englishCourse.id);
+  createCourseCardSets(en_es_sets, spanishCourse.id);
 }
 
 main()

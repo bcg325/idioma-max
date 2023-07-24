@@ -91,7 +91,7 @@ const Navbar = ({ children }: { children: React.ReactNode }) => {
         </div>
       </nav>
       {children}
-      <div className="pb-20 md:pb-10 bg-grayLight"></div>
+      <div className="pb-20 md:pb-10"></div>
     </div>
   );
 };

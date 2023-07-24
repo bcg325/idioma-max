@@ -19,20 +19,20 @@ const DiscoverSetsSection: React.FC<DiscoverSetsSectionProps> = ({
 
   return (
     <section>
-      <div className="items-center flex flex-col gap-2 xs:flex-row justify-between">
+      <div className="flex flex-row">
         <Link href={`/cards/discover`} className="w-fit">
-          <h1 className="text-2xl font-bold flex items-center">
+          <h2 className="text-2xl font-bold flex items-center">
             <span>{t("discover")}</span>
             <span className="ml-2 text-base font-normal">{count}</span>
             <IoMdArrowDropright
               size={20}
               className="relative top-[1.5px] text-primary400"
             />
-          </h1>
+          </h2>
         </Link>
       </div>
 
-      <div className="grid grid-cols-1 gap-3 mt-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 mt-5 sm:grid-cols-2 lg:grid-cols-3">
         {cardSets.map((cardSet) => (
           <CardSet
             key={cardSet.id}

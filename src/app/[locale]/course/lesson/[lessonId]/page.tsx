@@ -1,16 +1,25 @@
 "use client";
-import { useState, createContext, Dispatch, SetStateAction } from "react";
+import {
+  useState,
+  useEffect,
+  createContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLessonById, updateCourseProgress } from "@/app/store/courses";
-import Link from "next-intl/link";
 import ExerciseInput from "@/components/lesson/ExerciseInput";
 import ProgressTopBar from "@/components/ui/ProgressTopBar";
 import Button from "@/components/ui/Button";
-import ExerciseModal from "@/components/lesson/FeedbackModal";
+import FeedbackModal from "@/components/lesson/FeedbackModal";
 import { formatFillBlankAnswer } from "@/utils/formatFillBlankAnswer";
 import { useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import LessonCompleted from "@/components/lesson/LessonCompleted";
+import Loading from "@/components/ui/Loading";
+import { Exercise } from "@/types";
+import shuffle from "@/utils/shuffle";
+import { useRouter } from "next/navigation";
 
 interface UserAnswerContextType {
   userAnswer: string;
@@ -42,6 +51,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
   const t = useTranslations("Lesson");
   const queryClient = useQueryClient();
   const { data: session, status } = useSession();
+  const [exercises, setExercises] = useState<Exercise[]>([]);
   const [currExerciseIndex, setCurrExerciseIndex] = useState<number>(0);
   const [userAnswer, setUserAnswer] = useState<string>("");
   const [feedback, setFeedback] = useState<FeedbackType>(null);
@@ -56,7 +66,17 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
   } = useQuery({
     queryKey: ["lesson", params.lessonId],
     queryFn: () => getLessonById(params.lessonId),
+    refetchOnMount: false,
   });
+
+  useEffect(() => {
+    if (lessonData?.exercises && exercises.length <= 0) {
+      const exercisesCopy = lessonData.exercises;
+
+      shuffle(exercisesCopy);
+      setExercises(exercisesCopy);
+    }
+  }, [lessonData, exercises]);
 
   const courseProgressMutation = useMutation({
     mutationFn: () =>
@@ -72,15 +92,10 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
     },
   });
 
-  if (isLoading) {
-    return <div>Loading....</div>;
+  if (isLoading || exercises.length <= 0) {
+    return <Loading />;
   }
 
-  if (error) {
-    return;
-  }
-
-  const exercises = lessonData.exercises;
   const currentExercise = exercises[currExerciseIndex];
 
   const handleLessonCompletion = () => {
@@ -97,7 +112,24 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
         localStorage.setItem("courseProgress", JSON.stringify(progress));
       } else {
         const currentProgress: ProgressData = JSON.parse(localCourseProgress);
-        currentProgress[lessonData.unit.courseId][lessonData.id] = true;
+        if (currentProgress[lessonData.unit.courseId]) {
+          currentProgress[lessonData.unit.courseId][lessonData.id] = true;
+          localStorage.setItem(
+            "courseProgress",
+            JSON.stringify(currentProgress)
+          );
+        } else {
+          const newCourseProgress = {
+            ...currentProgress,
+            [lessonData.unit.courseId]: {
+              [lessonData.id]: true,
+            },
+          };
+          localStorage.setItem(
+            "courseProgress",
+            JSON.stringify(newCourseProgress)
+          );
+        }
       }
     }
   };
@@ -139,7 +171,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
               total={exercises?.length || 0}
               closeLink="/"
             />
-            <ExerciseModal
+            <FeedbackModal
               isOpen={!!feedback}
               isCorrect={feedback?.isCorrect || false}
               correctAnswer={correctAnswer}
