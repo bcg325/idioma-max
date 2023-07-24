@@ -8,6 +8,7 @@ import Link from "next-intl/link";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { toast } from "react-hot-toast";
 import { useTranslations } from "next-intl";
+import { notFound } from "next/navigation";
 
 type FormData = {
   name: string;
@@ -37,6 +38,12 @@ const SignUp = () => {
 
     setIsLoading(false);
     const resData = await res.json();
+
+    try {
+      t("signedUp");
+    } catch (err) {
+      notFound();
+    }
 
     if (!res.ok) {
       setServerError(resData.message);

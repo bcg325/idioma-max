@@ -59,20 +59,20 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={openSans.className}>
-        <NextIntlClientProvider
-          locale={locale}
-          messages={JSON.parse(messages)}
-          onError={onError}
-        >
-          <ToasterContext />
-          <Providers>
-            <CourseSelection courses={courses}>
+        <ToasterContext />
+        <Providers>
+          <CourseSelection courses={courses}>
+            <NextIntlClientProvider
+              locale={locale}
+              messages={JSON.parse(messages)}
+              onError={onError}
+            >
               <Navbar>
                 <main>{children}</main>
               </Navbar>
-            </CourseSelection>
-          </Providers>
-        </NextIntlClientProvider>
+            </NextIntlClientProvider>
+          </CourseSelection>
+        </Providers>
       </body>
     </html>
   );

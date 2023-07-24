@@ -1,7 +1,6 @@
-import createIntlMiddleware from "next-intl/middleware";
-import { NextRequest } from "next/server";
+import createMiddleware from "next-intl/middleware";
 
-const intlMiddleware = createIntlMiddleware({
+export default createMiddleware({
   // A list of all locales that are supported
   locales: ["en", "es"],
 
@@ -9,12 +8,6 @@ const intlMiddleware = createIntlMiddleware({
   defaultLocale: "en",
   localeDetection: false,
 });
-
-export default function middleware(req: NextRequest) {
-  console.log(req);
-  const response = intlMiddleware(req);
-  return response;
-}
 
 export const config = {
   // Skip all paths that should not be internationalized. This example skips the

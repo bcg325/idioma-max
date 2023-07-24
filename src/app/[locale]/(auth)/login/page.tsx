@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { useSearchParams } from "next/navigation";
+import { notFound, useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -53,6 +53,11 @@ const LogIn = () => {
       setServerError(signInResult.error);
     }
 
+    try {
+      t("loggedIn");
+    } catch (err) {
+      notFound();
+    }
     toast.success(t("loggedIn"));
   });
 
