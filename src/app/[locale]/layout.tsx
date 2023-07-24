@@ -46,13 +46,12 @@ export default async function RootLayout({
   params: { locale: string };
 }) {
   const messages = await getMessages(locale);
-  console.log(messages);
   const courses: Course[] = await getCourses();
 
   return (
     <html lang={locale}>
       <body className={openSans.className}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={JSON.parse(messages)}>
           <ToasterContext />
           <Providers>
             <CourseSelection courses={courses}>
