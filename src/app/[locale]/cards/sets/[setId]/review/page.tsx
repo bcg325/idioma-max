@@ -40,6 +40,23 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
     setIsFlipped(false);
   }, [reviewCards]);
 
+  const handleNextCard = useCallback(() => {
+    if (currentCardIndex === reviewCards!.length - 1) {
+      router.push(`/cards/sets/${setId}`);
+      return;
+    }
+    setIsFlipped(false);
+    setCurrentCardIndex((prev) => prev + 1);
+  }, [currentCardIndex, reviewCards, router, setId]);
+
+  const handlePreviousCard = useCallback(() => {
+    if (currentCardIndex === 0) {
+      return;
+    }
+    setIsFlipped(false);
+    setCurrentCardIndex((prev) => prev - 1);
+  }, [currentCardIndex]);
+
   const handleKeyDown = useCallback(
     (event: KeyboardEvent) => {
       event.preventDefault();
@@ -53,7 +70,7 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
         handleNextCard();
       }
     },
-    [currentCardIndex, isFlipped]
+    [handleNextCard, handlePreviousCard]
   );
 
   useEffect(() => {
@@ -88,23 +105,6 @@ const SetReviewPage: React.FC<SetReviewPage> = ({ params }) => {
 
   const handleFlip = () => {
     setIsFlipped((isFlipped) => !isFlipped);
-  };
-
-  const handleNextCard = () => {
-    if (currentCardIndex === reviewCards.length - 1) {
-      router.push(`/cards/sets/${setId}`);
-      return;
-    }
-    setIsFlipped(false);
-    setCurrentCardIndex((prev) => prev + 1);
-  };
-
-  const handlePreviousCard = () => {
-    if (currentCardIndex === 0) {
-      return;
-    }
-    setIsFlipped(false);
-    setCurrentCardIndex((prev) => prev - 1);
   };
 
   return (

@@ -162,8 +162,8 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
       : currentExercise.answer;
 
   return (
-    <UserAnswerContext.Provider value={{ userAnswer, setUserAnswer }}>
-      <div className="container min-h-fit h-screen flex flex-col">
+    <div className="container min-h-fit h-screen flex flex-col">
+      <UserAnswerContext.Provider value={{ userAnswer, setUserAnswer }}>
         {!lessonComplete ? (
           <>
             <ProgressTopBar
@@ -202,8 +202,8 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
             wrongAnswers={wrongCount}
           />
         )}
-      </div>
-    </UserAnswerContext.Provider>
+      </UserAnswerContext.Provider>
+    </div>
   );
 };
 export default LessonPage;
