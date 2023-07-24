@@ -30,7 +30,14 @@ const SignUp = () => {
     formState: { errors },
   } = useForm<FormData>();
 
-  console.log("Auth", t);
+  try {
+    console.log(t("name"));
+    console.log(t("signup"));
+    console.log(t("nameRequired"));
+    console.log(t(""));
+  } catch (err) {
+    console.log(err);
+  }
 
   const onSubmit = handleSubmit(async (data) => {
     setServerError("");

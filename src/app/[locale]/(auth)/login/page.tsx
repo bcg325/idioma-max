@@ -25,7 +25,6 @@ const LogIn = () => {
   const [serverError, setServerError] = useState("");
   const searchParams = useSearchParams();
 
-  console.log("Auth", t);
   const {
     register,
     handleSubmit,
