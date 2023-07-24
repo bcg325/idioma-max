@@ -9,8 +9,8 @@ import { Course } from "@/types";
 import { NextIntlClientProvider, IntlErrorCode, IntlError } from "next-intl";
 import { notFound } from "next/navigation";
 
-export function generateStaticParams() {
-  return [{ locale: "en" }, { locale: "es" }];
+export async function generateStaticParams() {
+  return ["en", "es"].map((locale) => ({ locale }));
 }
 
 export const metadata = {
@@ -46,7 +46,7 @@ function onError(error: IntlError) {
   }
 }
 
-export default async function RootLayout({
+export default async function LocaleLayout({
   children,
   params: { locale },
 }: {
@@ -64,7 +64,7 @@ export default async function RootLayout({
           <CourseSelection courses={courses}>
             <NextIntlClientProvider
               locale={locale}
-              messages={JSON.parse(messages)}
+              messages={messages}
               onError={onError}
             >
               <Navbar>
