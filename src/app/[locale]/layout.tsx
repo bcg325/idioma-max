@@ -30,6 +30,14 @@ const getCourses = async () => {
   return data;
 };
 
+const getMessages = async (locale: string) => {
+  try {
+    return (await import(`../../messages/${locale}.json`)).default;
+  } catch (error) {
+    notFound();
+  }
+};
+
 export default async function RootLayout({
   children,
   params: { locale },
@@ -37,12 +45,7 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: { locale: string };
 }) {
-  let messages;
-  try {
-    messages = (await import(`../../messages/${locale}.json`)).default;
-  } catch (error) {
-    notFound();
-  }
+  const messages = await getMessages(locale);
   const courses: Course[] = await getCourses();
 
   return (

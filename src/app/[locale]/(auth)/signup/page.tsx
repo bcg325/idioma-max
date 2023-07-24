@@ -1,6 +1,6 @@
 "use client";
-import { useState, useEffect } from "react";
-import { signIn, useSession } from "next-auth/react";
+import { useState } from "react";
+import { useSession } from "next-auth/react";
 import { useRouter } from "next-intl/client";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
@@ -18,8 +18,6 @@ type FormData = {
 };
 
 const SignUp = () => {
-  const session = useSession();
-  const router = useRouter();
   const t = useTranslations("Auth");
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
@@ -29,15 +27,6 @@ const SignUp = () => {
     setError,
     formState: { errors },
   } = useForm<FormData>();
-
-  try {
-    console.log(t("name"));
-    console.log(t("signup"));
-    console.log(t("nameRequired"));
-    console.log(t(""));
-  } catch (err) {
-    console.log(err);
-  }
 
   const onSubmit = handleSubmit(async (data) => {
     setServerError("");
