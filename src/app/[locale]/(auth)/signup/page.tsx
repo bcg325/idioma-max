@@ -9,11 +9,16 @@ import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { toast } from "react-hot-toast";
 import { useTranslations } from "next-intl";
 import { notFound } from "next/navigation";
+import axios, { AxiosError } from "axios";
 
 type FormData = {
   name: string;
   email: string;
   password: string;
+};
+
+const t = (str: string) => {
+  return str;
 };
 
 const SignUp = () => {
@@ -31,29 +36,14 @@ const SignUp = () => {
     setServerError("");
     setIsLoading(true);
 
-    const res = await fetch("/api/register", {
-      method: "POST",
-      body: JSON.stringify(data),
-    });
-
-    setIsLoading(false);
-    const resData = await res.json();
-
-    if (!res.ok) {
-      setServerError(resData.message);
-    }
-    if (res.ok) {
+    try {
+      await axios.post("/api/register", data);
       toast.success(t("signedUp"));
+      setIsLoading(false);
+    } catch (e: any) {
+      setServerError(e.response.data.message);
     }
   });
-
-  try {
-    const signedUp = t("signedUp");
-    console.log(signedUp);
-  } catch (err) {
-    console.log(err);
-    notFound();
-  }
 
   return (
     <div className="py-5">

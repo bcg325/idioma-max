@@ -23,7 +23,7 @@ export type Lesson = {
 export type Unit = {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   courseId?: string;
   lessons: Lesson[];
 };
@@ -31,7 +31,7 @@ export type Unit = {
 export type Course = {
   id: string;
   name: string;
-  description?: string;
+  description: string;
   fromLanguage: {
     locale: string;
   };

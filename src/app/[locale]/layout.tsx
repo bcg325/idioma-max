@@ -5,9 +5,9 @@ import Providers from "./providers";
 const openSans = Open_Sans({ subsets: ["latin"], display: "swap" });
 import ToasterContext from "@/components/ui/ToasterContext";
 import CourseSelection from "@/components/course/CourseSelection";
-import { Course } from "@/types";
-import { NextIntlClientProvider, IntlErrorCode, IntlError } from "next-intl";
+import { NextIntlClientProvider } from "next-intl";
 import { notFound } from "next/navigation";
+import getCourses from "../actions/getCourses";
 
 export async function generateStaticParams() {
   return ["en", "es"].map((locale) => ({ locale }));
@@ -19,15 +19,6 @@ export const metadata = {
   icons: {
     icon: "/im-logo.svg",
   },
-};
-
-const getCourses = async () => {
-  const protocol = process?.env.NODE_ENV === "development" ? "http" : "https";
-  const res = await fetch(
-    `${protocol}://${process.env.VERCEL_URL}/api/courses/`
-  );
-  const data = await res.json();
-  return data;
 };
 
 const getMessages = async (locale: string) => {
@@ -46,8 +37,7 @@ export default async function LocaleLayout({
   params: { locale: string };
 }) {
   const messages = await getMessages(locale);
-  console.log(locale, messages);
-  const courses: Course[] = await getCourses();
+  const courses = await getCourses();
 
   return (
     <html lang={locale}>

@@ -56,14 +56,6 @@ const LogIn = () => {
     toast.success(t("loggedIn"));
   });
 
-  try {
-    const loggedIn = t("loggedIn");
-    console.log(loggedIn);
-  } catch (err) {
-    console.log(err);
-    notFound();
-  }
-
   return (
     <div className="py-10">
       <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-gray/50 rounded-lg shadow-lg p-6">
