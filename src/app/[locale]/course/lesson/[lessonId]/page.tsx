@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { getLessonById, updateCourseProgress } from "@/app/store/courses";
 import ExerciseInput from "@/components/lesson/ExerciseInput";
 import ProgressTopBar from "@/components/ui/ProgressTopBar";
+import ExerciseHeader from "@/components/lesson/ExerciseHeader";
 import Button from "@/components/ui/Button";
 import FeedbackModal from "@/components/lesson/FeedbackModal";
 import { formatFillBlankAnswer } from "@/utils/formatFillBlankAnswer";
@@ -146,20 +147,26 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
       : currentExercise.answer;
 
   return (
-    <div className="container min-h-fit h-screen flex flex-col">
+    <div className="container flex flex-col justify-between min-h-fit h-screen lg:max-w-4xl">
       <UserAnswerProvider userAnswer={userAnswer} setUserAnswer={setUserAnswer}>
         {!lessonComplete ? (
           <>
-            <ProgressTopBar
-              current={currExerciseIndex + 1}
-              total={exercises?.length || 0}
-              closeLink="/"
-            />
             <FeedbackModal
               isOpen={!!feedback}
               isCorrect={feedback?.isCorrect || false}
               correctAnswer={correctAnswer}
               onClose={nextExercise}
+            />
+            <ProgressTopBar
+              current={currExerciseIndex + 1}
+              total={exercises?.length || 0}
+              closeLink="/"
+            />
+            <ExerciseHeader
+              term={currentExercise.term}
+              exerciseType={currentExercise.exerciseType.name}
+              imageUrl={currentExercise.imageUrl || ""}
+              termLang={currentExercise.termLang || "EN"}
             />
             <ExerciseInput
               term={currentExercise.term}
@@ -170,7 +177,7 @@ const LessonPage: React.FC<LessonPageProps> = ({ params }) => {
               optionsLang={currentExercise.optionsLang || "EN"}
               imageUrl={currentExercise.imageUrl || ""}
             />
-            <div className="flex justify-center w-full py-3">
+            <div className="flex justify-center w-full my-3">
               <Button
                 disabled={!userAnswer}
                 className="text-white w-44"

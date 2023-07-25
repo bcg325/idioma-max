@@ -1,9 +1,7 @@
 "use client";
-import LessonHeader from "./LessonHeader";
 import MultipleChoice from "./MultipleChoice";
 import Build from "./Build";
 import FillBlank from "./FillBlank";
-import { useTranslations } from "next-intl";
 
 interface ExerciseInputProps {
   term: string;
@@ -24,31 +22,8 @@ const ExerciseInput: React.FC<ExerciseInputProps> = ({
   options,
   optionsLang,
 }) => {
-  const t = useTranslations("Lesson.exercises");
-
-  let title = "";
-
-  if (exerciseType === "vocab") {
-    title = t("translate");
-  }
-
-  if (exerciseType === "fill_blank") {
-    title = t("fillBlank");
-  }
-
-  if (exerciseType === "grammar") {
-    title = t("buildSentence");
-  }
-
   return (
-    <div className="flex flex-col justify-center items-center h-full ">
-      <LessonHeader
-        title={title}
-        term={term}
-        imageUrl={imageUrl}
-        isFillBlank={exerciseType === "fill_blank"}
-        lang={termLang}
-      />
+    <div className="flex flex-col justify-center items-center">
       <div className="flex flex-col items-center justify-center h-full w-full max-w-2xl">
         {exerciseType === "vocab" && options && (
           <MultipleChoice
