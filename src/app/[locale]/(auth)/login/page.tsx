@@ -1,7 +1,7 @@
 "use client";
 import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
-import { notFound, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import Input from "@/components/ui/Input";
 import Button from "@/components/ui/Button";
@@ -55,14 +55,6 @@ const LogIn = () => {
 
     toast.success(t("loggedIn"));
   });
-
-  try {
-    const loggedIn = t("loggedIn");
-    console.log(loggedIn);
-  } catch (err) {
-    console.log(err);
-    notFound();
-  }
 
   return (
     <div className="py-10">

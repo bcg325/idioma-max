@@ -38,14 +38,6 @@ const getMessages = async (locale: string) => {
   }
 };
 
-function onError(error: IntlError) {
-  if (error.code === IntlErrorCode.MISSING_MESSAGE) {
-    // Missing translations are expected and should only log an error
-    console.error(error);
-  } else {
-  }
-}
-
 export default async function LocaleLayout({
   children,
   params: { locale },
@@ -62,11 +54,7 @@ export default async function LocaleLayout({
         <ToasterContext />
         <Providers>
           <CourseSelection courses={courses}>
-            <NextIntlClientProvider
-              locale={locale}
-              messages={messages}
-              onError={onError}
-            >
+            <NextIntlClientProvider locale={locale} messages={messages}>
               <Navbar>
                 <main>{children}</main>
               </Navbar>
