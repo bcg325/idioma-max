@@ -44,7 +44,7 @@ export default async function LocaleLayout({
       <body className={openSans.className}>
         <ToasterContext />
         <Providers>
-          <CourseSelection courses={courses}>
+          <CourseSelection courses={courses} locale={locale}>
             <NextIntlClientProvider locale={locale} messages={messages}>
               <Navbar>
                 <main>{children}</main>

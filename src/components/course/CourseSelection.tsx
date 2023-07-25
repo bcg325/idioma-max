@@ -20,11 +20,13 @@ export const CourseContext = createContext<CourseContextType>({
 interface CourseSelectionProps {
   children: React.ReactNode;
   courses: Course[];
+  locale: string;
 }
 
 const CourseSelection: React.FC<CourseSelectionProps> = ({
   courses,
   children,
+  locale,
 }) => {
   const pathname = usePathname();
   const router = useRouter();
@@ -41,10 +43,14 @@ const CourseSelection: React.FC<CourseSelectionProps> = ({
       if (typeof window != "undefined") {
         localStorage.setItem("currentCourseId", JSON.stringify(courseId));
       }
-
-      router.replace(pathname, { locale: newCourse.fromLanguage.locale });
+      if (
+        (locale && locale != newCourse.fromLanguage.locale) ||
+        (!locale && newCourse.fromLanguage.locale != "en")
+      ) {
+        router.replace(pathname, { locale: newCourse.fromLanguage.locale });
+      }
     },
-    [courses, router, pathname]
+    [courses, router, pathname, locale]
   );
 
   useEffect(() => {
