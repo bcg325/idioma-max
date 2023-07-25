@@ -47,6 +47,14 @@ const SignUp = () => {
     }
   });
 
+  try {
+    const signedUp = t("signedUp");
+    console.log(signedUp);
+  } catch (err) {
+    console.log(err);
+    notFound();
+  }
+
   return (
     <div className="py-5">
       <div className="bg-white mx-auto w-10/12 xs:w-96 flex flex-col gap-3 border-2 border-gray/50 rounded-lg shadow-lg p-6">
