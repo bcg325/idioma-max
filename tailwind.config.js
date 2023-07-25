@@ -65,6 +65,9 @@ module.exports = {
       transitionProperty: {
         height: "height",
       },
+      height: {
+        screen: ["100vh", "100dvh"],
+      },
       scale: {
         99: "0.99",
       },

@@ -44,13 +44,14 @@ const LogIn = () => {
     const signInResult = await signIn("credentials", {
       ...data,
       redirect: false,
-      callbackUrl: searchParams?.get("from") || "/",
+      callbackUrl: "/",
     });
 
     setIsLoading(false);
 
     if (signInResult?.error) {
       setServerError(signInResult.error);
+      return;
     }
 
     toast.success(t("loggedIn"));

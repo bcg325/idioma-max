@@ -1,5 +1,6 @@
 "use client";
-import { useCallback, useMemo } from "react";
+import { useCallback } from "react";
+import { browserName } from "react-device-detect";
 
 let speechVoices: SpeechSynthesisVoice[];
 if (window) {
@@ -11,17 +12,28 @@ if (window) {
 const useTTS = () => {
   const playSound = useCallback((term: string, lang: string) => {
     if (speechVoices.length <= 0) return;
+
     const msg = new SpeechSynthesisUtterance(term);
-    if (lang === "EN") {
-      msg.voice = speechVoices[4];
-    } else if (lang === "ES") {
-      msg.voice = speechVoices[7];
+
+    let langVoice = speechVoices.find((voice) =>
+      voice.lang.startsWith(lang.toLowerCase())
+    );
+
+    if (browserName === "Chrome" && lang === "EN") {
+      langVoice = speechVoices[4];
     }
+
+    if (!langVoice) {
+      return;
+    }
+
+    msg.voice = langVoice;
+    msg.lang = langVoice.lang;
 
     if (speechSynthesis.speaking) {
       speechSynthesis.cancel();
     }
-    msg.rate = 1.01;
+
     speechSynthesis.speak(msg);
   }, []);
 

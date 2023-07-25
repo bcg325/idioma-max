@@ -21,6 +21,10 @@ const ProfilePage = () => {
     refetchOnMount: false,
   });
 
+  const handleSignOut = () => {
+    signOut({ callbackUrl: "/login" });
+  };
+
   if (userProgress.isLoading) {
     return <Loading />;
   }
@@ -62,7 +66,7 @@ const ProfilePage = () => {
             )}
           </div>
 
-          <Button className="text-white w-44 mt-1" onClick={() => signOut()}>
+          <Button className="text-white w-44 mt-1" onClick={handleSignOut}>
             {t("logOut")}
           </Button>
         </div>

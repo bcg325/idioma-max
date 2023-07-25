@@ -8,8 +8,8 @@ import Link from "next-intl/link";
 import GoogleSignInButton from "@/components/auth/GoogleSignInButton";
 import { toast } from "react-hot-toast";
 import { useTranslations } from "next-intl";
-import { notFound } from "next/navigation";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { useRouter } from "next-intl/client";
 
 type FormData = {
   name: string;
@@ -23,6 +23,7 @@ const t = (str: string) => {
 
 const SignUp = () => {
   const t = useTranslations("Auth");
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [serverError, setServerError] = useState("");
   const {
@@ -39,6 +40,7 @@ const SignUp = () => {
     try {
       await axios.post("/api/register", data);
       toast.success(t("signedUp"));
+      router.push("/login");
       setIsLoading(false);
     } catch (e: any) {
       setServerError(e.response.data.message);

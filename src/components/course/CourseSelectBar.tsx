@@ -24,10 +24,10 @@ const CourseSelectBar: React.FC<CourseSelectBarProps> = ({
           onChange={handleCourseChange}
           name="course"
           id="course"
-          className="bg-primary500 p-2 outline-none"
+          className="bg-primary500 h-full p-2 outline-none"
         >
           {courses.map((course) => (
-            <option key={course.id} value={course.id} className="p-4">
+            <option key={course.id} value={course.id} className="p-3">
               {course.name}
             </option>
           ))}

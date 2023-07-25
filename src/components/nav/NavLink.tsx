@@ -16,7 +16,7 @@ const NavLink = ({ label, url, iconSvg, active }: Props) => {
         ${active ? "fill-white" : "fill-primary100 text-primary100"}`}
       >
         {iconSvg}
-        <span className="">{label}</span>
+        <span className="text-sm sm:text-base">{label}</span>
       </Link>
     </li>
   );
