@@ -46,6 +46,7 @@ export default async function LocaleLayout({
   params: { locale: string };
 }) {
   const messages = await getMessages(locale);
+  console.log(locale, messages);
   const courses: Course[] = await getCourses();
 
   return (
