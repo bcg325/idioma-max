@@ -73,6 +73,7 @@
     "noAccount": "¿No tienes una cuenta?",
     "haveAccount": "¿Ya tienes una cuenta?",
     "or": "o",
-    "google": "Continuar con Google"
+    "google": "Continuar con Google",
+    "tryApp": "Prueba la aplicación: "
   }
 }

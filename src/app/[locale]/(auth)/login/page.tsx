@@ -123,6 +123,10 @@ const LogIn = () => {
           <GoogleSignInButton text={t("google")} />
         </div>
       </div>
+      <p className="mt-4 text-center">
+        {t("tryApp")} <span className="font-medium">test@gmail.com</span> &{" "}
+        <span className="font-medium">password123</span>
+      </p>
     </div>
   );
 };
